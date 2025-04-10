@@ -24,7 +24,7 @@
   }
   body.light-mode {
     --background: #f0f0f0;
-    --text-color: 007acc;
+    
     --accent: #007acc;
     --card-bg: rgba(245, 245, 245, 0.9);
     --glass-bg: rgba(255, 255, 255, 0.6);

@@ -460,6 +460,10 @@
     object-fit: cover;
     border: 3px solid #0ff;
   }
+
+.profile-img:hover {
+  transform: scale(1.05);
+}
   
   /* 🌐 Responsive for tablets and phones */
   @media (max-width: 768px) {

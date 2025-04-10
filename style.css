@@ -37,6 +37,7 @@
     top: 0;
     z-index: 1000;
   }
+  
   nav {
     display: flex;
     justify-content: space-between;
@@ -45,26 +46,35 @@
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--accent);
+    position: relative;
   }
+  
+  /* 🌟 Logo */
   .logo {
     font-size: 28px;
     font-weight: bold;
     color: var(--accent);
   }
+  
+  /* 🔗 Nav Links */
   .nav-links {
     list-style: none;
     display: flex;
     gap: 25px;
   }
+  
   .nav-links a {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 500;
     transition: color 0.3s;
   }
+  
   .nav-links a:hover {
     color: var(--accent);
   }
+  
+  /* 🌙 Theme Toggle Button */
   #theme-toggle {
     background: none;
     border: none;
@@ -73,8 +83,44 @@
     color: var(--accent);
     transition: transform 0.3s;
   }
+  
   #theme-toggle:hover {
     transform: scale(1.1);
+  }
+  
+  /* 🍔 Hamburger Icon - Hidden on Desktop */
+  .hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: var(--accent);
+    background: none;
+    border: none;
+  }
+  
+  /* 📱 Mobile Styling */
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+  
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background: var(--glass-bg);
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      z-index: 999;
+    }
+  
+    .nav-links.active {
+      display: flex;
+    }
   }
   
   /* HERO SECTION */

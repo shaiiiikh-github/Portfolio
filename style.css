@@ -23,18 +23,11 @@
     --glass-bg: rgba(18, 18, 45, 0.5);
   }
   body.light-mode {
-    /* Base colors for light mode */
-    --background: #f5f5f5;            /* Soft light background */
-    --text-color: #111111;            /* Dark text for strong readability */
-    --accent: #007acc;                /* Bright blue accent */
-    
-    /* Glassmorphism and card backgrounds */
-    --glass-bg: rgba(255, 255, 255, 0.7);   /* Light glass effect */
-    --card-bg: rgba(245, 245, 245, 0.95);   /* Slightly off-white card background */
-  
-    /* Optional: update link/button hover states if needed */
-    --button-hover: #005fa3;          /* Darker blue for hover contrast */
-    --link-color: #004b85;            /* Deep blue for links */
+    --background: #f0f0f0;
+    --text-color: #111; /* ✅ dark text for readability */
+    --accent: #007acc;
+    --card-bg: rgba(245, 245, 245, 0.9);
+    --glass-bg: rgba(255, 255, 255, 0.6);
   }
   
   

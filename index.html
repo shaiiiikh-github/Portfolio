@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shabbir | Advanced Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shabbir's Portfolio</title>
   <!-- Google Font for a techy look -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 </head>
+
 <body>
 
   <!-- NAVIGATION -->
   <header>
     <nav class="glass">
       <div class="logo">Shabbir</div>
-      
+
       <!-- Hamburger Icon -->
       <div class="hamburger" id="hamburger">&#9776;</div>
-  
+
       <!-- Navigation Links -->
       <ul class="nav-links" id="nav-links">
         <li><a href="#hero">Home</a></li>
@@ -27,59 +29,60 @@
         <li><a href="#timeline">Timeline</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-  
+
       <button id="theme-toggle" aria-label="Toggle Theme">🌙</button>
     </nav>
   </header>
 
   <!-- HERO SECTION -->
   <!-- HERO SECTION -->
-<section class="hero" id="hero">
-  <div class="hero-container">
-    <!-- LEFT -->
-    <div class="hero-left">
-      <div class="profile-container">
-        <div class="profile-glow">
-          <img src="assets/shabbir.jpg" alt="Shabbir" class="profile-img" />
+  <section class="hero" id="hero">
+    <div class="hero-container">
+      <!-- LEFT -->
+      <div class="hero-left">
+        <div class="profile-container">
+          <div class="profile-glow">
+            <img src="assets/shabbir.jpg" alt="Shabbir" class="profile-img" />
+          </div>
+        </div>
+
+        <div class="socials">
+          <a href="https://github.com/shaiiiikh-github" target="_blank">
+            <img src="assets/github.png" alt="GitHub" class="social-icon" />
+          </a>
+          <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">
+            <img src="assets/linkedin.png" alt="LinkedIn" class="social-icon" />
+          </a>
+          <a href="mailto:shabbir23rd@gmail.com">
+            <img src="assets/gmail.png" alt="Email" class="social-icon" />
+          </a>
+          <a href="https://www.instagram.com/shaiiiikh.ig/?__pwa=1" target="_blank">
+            <img src="assets/insta.png" alt="Instagram" class="social-icon" />
+          </a>
         </div>
       </div>
 
-      <div class="socials">
-        <a href="https://github.com/shaiiiikh-github" target="_blank">
-          <img src="assets/github.png" alt="GitHub" class="social-icon" />
-        </a>
-        <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">
-          <img src="assets/linkedin.png" alt="LinkedIn" class="social-icon" />
-        </a>
-        <a href="mailto:shabbir23rd@gmail.com">
-          <img src="assets/gmail.png" alt="Email" class="social-icon" />
-        </a>
-        <a href="https://www.instagram.com/shaiiiikh.ig/?__pwa=1" target="_blank">
-          <img src="assets/insta.png" alt="Instagram" class="social-icon" />
-        </a>
+      <!-- RIGHT -->
+      <div class="hero-right">
+        <div class="hero-text">
+          <h2>Hello, I'm</h2>
+          <h1>Shabbir</h1>
+          <p id="typing-text"></p>
+        </div>
+
+        <div class="hero-buttons">
+          <a href="files/Shaikh Shabbir_protected.pdf" class="btn btn-outline" target="_blank"
+            rel="noopener noreferrer">
+            📄 View Resume
+          </a>
+
+          <a href="#projects" class="btn">🚀 View My Work</a>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- RIGHT -->
-    <div class="hero-right">
-      <div class="hero-text">
-        <h2>Hello, I'm</h2>
-        <h1>Shabbir</h1>
-        <p id="typing-text"></p>
-      </div>
 
-      <div class="hero-buttons">
-        <a href="files/Shaikh Shabbir_protected.pdf" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
-          📄 View Resume
-        </a>
-        
-        <a href="#projects" class="btn">🚀 View My Work</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-  
 
   <!-- SKILLS SECTION -->
   <section class="section" id="skills">
@@ -100,43 +103,49 @@
     <h2>My Projects</h2>
     <div class="project-grid">
       <div class="project-card">
-        <h3>Weather App</h3>
-        <p>A web app that shows real-time weather using OpenWeather API.</p>
-        <a href="#" class="view-btn">View Project</a>
+        <h3>Crop Recommendation system</h3>
+        <p>Built a Crop Recommendation System using machine learning to suggest the best crops based on soil, weather,
+          and location data. The system empowers farmers with data-driven decisions for improved yield and
+          profitability.</p>
+        <a href="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION" class="view-btn">View Project</a>
       </div>
-  
+
       <div class="project-card">
         <h3>Portfolio Website</h3>
         <p>My personal website built with HTML, CSS, and JavaScript.</p>
-        <a href="#" class="view-btn">View Project</a>
-      </div>
-  
-      <div class="project-card">
-        <h3>Notepad Cloud</h3>
-        <p>Online note-taking app with cloud sync and user login.</p>
         <a href="#" class="view-btn">View Project</a>
       </div>
 
       <div class="project-card">
-        <h3>Weather App</h3>
-        <p>A web app that shows real-time weather using OpenWeather API.</p>
-        <a href="#" class="view-btn">View Project</a>
+        <h3>Pixel Cloud Notepad</h3>
+        <p>Designed Pixel Cloud Notepad, a minimalist online notepad with cloud syncing capabilities. Focused on clean
+          UI and efficient note management, allowing users to write and access notes anytime.</p>
+        <a href="https://shaiiiikh-github.github.io/pixel-notepad/" class="view-btn">Open Notepad</a>
       </div>
-  
+
       <div class="project-card">
-        <h3>Portfolio Website</h3>
-        <p>My personal website built with HTML, CSS, and JavaScript.</p>
-        <a href="#" class="view-btn">View Project</a>
+        <h3>Clipboard logger</h3>
+        <p>Created a Clipboard Logger in Python to monitor and log clipboard activity, showcasing system-level scripting
+          and automation skills. Useful for understanding data tracking</p>
+        <a href="https://github.com/shaiiiikh-github/clipboard_logger" class="view-btn">View Project</a>
       </div>
-  
+
+      <div class="project-card">
+        <h3>Memory Matching Game</h3>
+        <p>Built an interactive Memory Matching Game using HTML, CSS, and JavaScript. The game challenges users to find
+          matching card pairs with smooth animations and responsive design for all screen sizes.</p>
+        <a href="https://game-vas2.onrender.com/" class="view-btn">Play</a>
+      </div>
+
       <div class="project-card">
         <h3>Fake IG Account detection and reporthing</h3>
-        <p>Online note-taking app with cloud sync and user login.</p>
-        <a href="#" class="view-btn">View Project</a>
+        <p>Developed a Fake Instagram Account Detection system using KNN and other ML algorithms in Jupyter Notebook.
+          The project identifies suspicious profiles based on behavior patterns and reports them automatically.</p>
+        <a href="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING" class="view-btn">View Project</a>
       </div>
     </div>
   </section>
-  
+
 
   <!-- TIMELINE SECTION -->
   <section class="section" id="timeline">
@@ -152,7 +161,8 @@
       </li>
       <li>
         <span class="date">2022</span>
-        <p>Built a Bluetooth-controlled car using Arduino and a smartphone, demonstrating early interest in robotics and IoT.</p>
+        <p>Built a Bluetooth-controlled car using Arduino and a smartphone, demonstrating early interest in robotics and
+          IoT.</p>
       </li>
       <li>
         <span class="date">2019</span>
@@ -165,22 +175,22 @@
   </section>
 
   <!-- CONTACT SECTION -->
-  
-    <section class="section" id="contact">
-      <h2 class="section-title">Contact</h2>
-    
-      <form class="contact-form" action="https://formspree.io/f/xgvarvzp" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Your Message" required></textarea>
-        <button type="submit" class="btn">Send Message</button>
-        <p id="form-status" class="form-status"></p>
-      </form>
-    </section>
-    
-    <p id="form-status" style="margin-top: 15px;"></p>
 
-    
+  <section class="section" id="contact">
+    <h2 class="section-title">Contact</h2>
+
+    <form class="contact-form" action="https://formspree.io/f/xgvarvzp" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+      <p id="form-status" class="form-status"></p>
+    </form>
+  </section>
+
+  <p id="form-status" style="margin-top: 15px;"></p>
+
+
   </section>
 
   <!-- FOOTER -->
@@ -189,10 +199,11 @@
     <div class="footer-socials">
       <a href="https://github.com/yourgithub" target="_blank">GitHub</a>
       <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
-      
-      
+
+
     </div>
   </footer>
 
 </body>
+
 </html>

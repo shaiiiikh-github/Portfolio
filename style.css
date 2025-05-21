@@ -226,6 +226,7 @@
     align-items: center;      /* Center everything horizontally */
     justify-content: center;  /* Optional: center vertically if needed */
     text-align: center;
+    color : white;
     padding: 20px;
   }
   

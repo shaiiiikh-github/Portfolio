@@ -18,6 +18,7 @@
   :root {
     --background: #0e0e14;
     --text-color: #f0f0f0;
+    --typing-color: white;
     --accent: #00ffe7;
     --card-bg: rgba(26, 26, 36, 0.8);
     --glass-bg: rgba(18, 18, 45, 0.5);
@@ -25,6 +26,7 @@
   body.light-mode {
     --background: #f0f0f0;
     --text-color: #111; /* ✅ dark text for readability */
+    --typing-color: #007acc;
     --accent: #007acc;
     --card-bg: rgba(245, 245, 245, 0.9);
     --glass-bg: rgba(255, 255, 255, 0.6);
@@ -234,7 +236,7 @@
     font-size: 20px;
     margin-bottom: 30px;
     min-height: 30px;
-    color: var(--text-color);
+    color: var(--typing-color);
   }
   .btn {
     padding: 12px 30px;
@@ -667,16 +669,24 @@
     margin-bottom: 30px;
   }
 
-  .contact-form input,
-  .contact-form textarea,
-  .contact-form button {
-    width: 100%;
-    font-size: 14px;
-  }
-
   .contact-form {
-    padding: 0 10px;
-  }
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  width: 100%;
+  max-width: 400px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
 
   .footer-socials {
     flex-direction: column;

@@ -83,3 +83,10 @@ const navLinks = document.getElementById("nav-links");
 hamburger.addEventListener("click", () => {
   navLinks.classList.toggle("active");
 });
+
+// Close mobile menu when a nav link is clicked
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("active");
+  });
+});

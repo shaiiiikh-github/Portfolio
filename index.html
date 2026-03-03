@@ -7,7 +7,7 @@
   <title>Shabbir's Portfolio</title>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=Urbanist:wght@400;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=Urbanist:wght@400;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
     rel="stylesheet">
 
 
@@ -24,10 +24,12 @@
   <!-- NAVIGATION -->
   <header>
     <nav class="glass">
-      <div class="logo">Shabbir</div>
-
-      <!-- Hamburger Icon -->
-      <div class="hamburger" id="hamburger">&#9776;</div>
+      <!-- Animated Dev Logo -->
+      <a href="#hero" class="logo">
+        <span class="logo-bracket logo-open">&lt;</span>
+        <span class="logo-name">Shabbir</span>
+        <span class="logo-bracket logo-close">/&gt;</span>
+      </a>
 
       <!-- Navigation Links -->
       <ul class="nav-links" id="nav-links">
@@ -38,7 +40,11 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
 
-      <button id="theme-toggle" aria-label="Toggle Theme">🌙</button>
+      <!-- Right-side controls (theme toggle + hamburger) -->
+      <div class="nav-right">
+        <button id="theme-toggle" aria-label="Toggle Theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">&#9776;</button>
+      </div>
     </nav>
   </header>
 
@@ -49,22 +55,22 @@
       <div class="hero-left">
         <div class="profile-container">
           <div class="profile-glow">
-            <img src="/Portfolio/assets/shabbir.jpg" alt="Shabbir" class="profile-img" />
+            <img src="assets/shabbir.jpg" alt="Shabbir" class="profile-img" />
           </div>
         </div>
 
         <div class="socials">
           <a href="https://github.com/shaiiiikh-github" target="_blank">
-            <img src="/Portfolio/assets/github.png" alt="GitHub" class="social-icon" />
+            <img src="assets/github.png" alt="GitHub" class="social-icon" />
           </a>
           <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">
-            <img src="/Portfolio/assets/linkedin.png" alt="LinkedIn" class="social-icon" />
+            <img src="assets/linkedin.png" alt="LinkedIn" class="social-icon" />
           </a>
           <a href="mailto:shabbir23rd@gmail.com">
-            <img src="/Portfolio/assets/gmail.png" alt="Email" class="social-icon" />
+            <img src="assets/gmail.png" alt="Email" class="social-icon" />
           </a>
           <a href="https://www.instagram.com/shaiiiikh.ig/?__pwa=1" target="_blank">
-            <img src="/Portfolio/assets/insta.png" alt="Instagram" class="social-icon" />
+            <img src="assets/insta.png" alt="Instagram" class="social-icon" />
           </a>
         </div>
       </div>
@@ -78,8 +84,7 @@
         </div>
 
         <div class="hero-buttons">
-          <a href="files\shabbir_resume.pdf" class="btn btn-outline" target="_blank"
-            rel="noopener noreferrer">
+          <a href="files\shabbir_resume.pdf" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
             📄 View Resume
           </a>
 
@@ -106,69 +111,76 @@
   </section>
 
   <!-- PROJECTS SECTION -->
-  <section id="projects" class="projects-section">
+<section id="projects" class="projects-section">
 
-    <h2>My Projects</h2>
-    <div class="project-grid">
-      <div class="project-card">
-        <img src="assets\crop.png" alt="Crop Recommendation"
-          class="project-image">
-        <h3>Crop Recommendation system</h3>
-        <p>Built a Crop Recommendation System using machine learning to suggest the best crops based on soil, weather,
-          and location data. The system empowers farmers with data-driven decisions for improved yield and
-          profitability.</p>
-        <a href="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION" class="view-btn">View Project</a>
-      </div>
+  <h2>My Projects</h2>
+  <div class="project-grid">
 
-
-
-      <div class="project-card">
-        <img src="assets\qr.png" alt="Crop Recommendation"
-          class="project-image">
-        <h3>Qr code-generator</h3>
-        <p>A web app that instantly creates downloadable QR codes for any text or link.
-          Built with Flask and Python, it tracks generation count and supports real-time QR preview.</p>
-        <a href="https://qr-genera-0v45.onrender.com" class="view-btn">Open</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets\pixel_np.png" alt="Crop Recommendation"
-          class="project-image">
-        <h3>Pixel Cloud Notepad</h3>
-        <p>Designed Pixel Cloud Notepad, a minimalist online notepad with cloud syncing capabilities. Focused on clean
-          UI and efficient note management, allowing users to write and access notes anytime.</p>
-        <a href="https://pixel-notepad.onrender.com" class="view-btn">Open Notepad</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets\clipboard_logger.png" alt="Clipboard logger"
-          class="project-image">
-        <h3>Clipboard logger</h3>
-        <p>Created a Clipboard Logger in Python to monitor and log clipboard activity, showcasing system-level scripting
-          and automation skills. Useful for understanding data tracking</p>
-        <a href="https://github.com/shaiiiikh-github/clipboard_logger" class="view-btn">View Project</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets\game.png" alt="Memory Matching Game"
-          class="project-image">
-        <h3>Memory Matching Game</h3>
-        <p>Built an interactive Memory Matching Game using HTML, CSS, and JavaScript. The game challenges users to find
-          matching card pairs with smooth animations and responsive design for all screen sizes.</p>
-        <a href="https://game-vas2.onrender.com/" class="view-btn">Play</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets\Fake.png" alt="Fake IG Account detection and reporting"
-          class="project-image">
-        <h3>Fake IG Account detection and reporthing</h3>
-        <p>Developed a Fake Instagram Account Detection system using KNN and other ML algorithms in Jupyter Notebook.
-          The project identifies suspicious profiles based on behavior patterns and reports them automatically.</p>
-        <a href="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING"
-          class="view-btn">View Project</a>
-      </div>
+    <div class="project-card">
+      <img src="assets/crop.png" alt="Crop Recommendation System" class="project-image">
+      <h3>Crop Recommendation System</h3>
+      <p>Built a Crop Recommendation System using machine learning to suggest the most suitable crops based on soil, weather, and location data. The system empowers farmers with data-driven decisions to improve yield and profitability.</p>
+      <a href="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION" class="view-btn">View Project</a>
     </div>
-  </section>
+
+    <div class="project-card">
+      <img src="assets/qr.png" alt="QR Code Generator" class="project-image">
+      <h3>QR Code Generator</h3>
+      <p>Developed a web application that instantly generates downloadable QR codes for any text or URL. Built with Flask and Python, it tracks generation counts and provides real-time QR preview functionality.</p>
+      <a href="https://qr-genera-0v45.onrender.com" class="view-btn">Open</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/pixel_np.png" alt="Pixel Cloud Notepad" class="project-image">
+      <h3>Pixel Cloud Notepad</h3>
+      <p>Designed Pixel Cloud Notepad, a minimalist cloud-based note-taking application with real-time syncing. Focused on clean UI design and efficient note management for seamless accessibility across devices.</p>
+      <a href="https://pixel-notepad.onrender.com" class="view-btn">Open Notepad</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/clipboard_logger.png" alt="Clipboard Logger" class="project-image">
+      <h3>Clipboard Logger</h3>
+      <p>Created a Python-based Clipboard Logger to monitor and log clipboard activity, demonstrating system-level scripting and automation skills with practical data tracking implementation.</p>
+      <a href="https://github.com/shaiiiikh-github/clipboard_logger" class="view-btn">View Project</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/game.png" alt="Memory Matching Game" class="project-image">
+      <h3>Memory Matching Game</h3>
+      <p>Built an interactive Memory Matching Game using HTML, CSS, and JavaScript. The game challenges users to find matching card pairs with smooth animations and responsive design for all screen sizes.</p>
+      <a href="https://game-vas2.onrender.com/" class="view-btn">Play</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/Fake.png" alt="Fake Instagram Account Detection" class="project-image">
+      <h3>Fake Instagram Account Detection</h3>
+      <p>Developed a Fake Instagram Account Detection system using KNN and other machine learning algorithms in Jupyter Notebook. The system identifies suspicious profiles based on behavioral patterns and automatically generates reports.</p>
+      <a href="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING" class="view-btn">View Project</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/SmartAgro.png" alt="Smart Agro-Solar System" class="project-image">
+      <h3>Smart Agro-Solar System</h3>
+      <p>Developed a Smart Agro-Solar System using IoT sensors and machine learning models. The system monitors soil moisture, temperature, humidity, and pH levels in real time, provides crop recommendations, and optimizes solar energy usage through a cloud-based dashboard.</p>
+      <a href="https://github.com/Sahil-006/Smart-Agro" class="view-btn">View Project</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/Intellu.png" alt="IntelliHelp AI Platform" class="project-image">
+      <h3>IntelliHelp AI</h3>
+      <p>Developed an IntelliHelp AI platform that allows users to upload device manuals and ask queries directly. The system processes uploaded documents using NLP techniques and provides instant, context-aware answers, eliminating the need to manually read lengthy manuals.</p>
+      <a href="https://github.com/shaiiiikh-github/Intelli-Help" class="view-btn">View Project</a>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/SURAKSHA (1).png" alt="Suraksha Yatra Travel Safety Platform" class="project-image">
+      <h3>Suraksha Yatra</h3>
+      <p>Developed Suraksha Yatra, a travel safety platform designed for tourists. The system enables users to create travel groups, track live locations of members, receive alerts if someone gets separated, and share experiences through a community chat feature.</p>
+      <a href="https://github.com/Sahil-006/SmartTouristSOS" class="view-btn">View Project</a>
+    </div>
+
+  </div>
+</section>
 
 
   <!-- TIMELINE SECTION -->

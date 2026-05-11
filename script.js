@@ -90,3 +90,33 @@ navLinks.querySelectorAll("a").forEach(link => {
     navLinks.classList.remove("active");
   });
 });
+
+// ==========================================
+// Visitor Counter Logic
+// ==========================================
+async function updateVisitorCount() {
+  // We use a unique namespace so it only tracks your portfolio
+  const namespace = 'shabbir-portfolio-2025'; 
+  const key = 'visits';
+  
+  try {
+    // The '/up' endpoint increments the count and returns the new total
+    const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    const data = await response.json();
+    
+    // Update the HTML span with the new count
+    document.getElementById('visit-count').textContent = data.count;
+  } catch (error) {
+    console.error('Error fetching visitor count:', error);
+    // Fallback if the API fails
+    document.getElementById('visit-count').textContent = 'Unavailable';
+  }
+}
+
+// Call the function when the script loads
+updateVisitorCount();

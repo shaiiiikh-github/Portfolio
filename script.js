@@ -120,3 +120,26 @@ async function updateVisitorCount() {
 
 // Call the function when the script loads
 updateVisitorCount();
+
+// ==========================================
+// Back to Top Button Logic
+// ==========================================
+const backToTopBtn = document.getElementById("backToTopBtn");
+
+// Show or hide the button based on scroll position
+window.addEventListener("scroll", () => {
+  // If scrolled down more than 300px, show the button
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    backToTopBtn.classList.add("show");
+  } else {
+    backToTopBtn.classList.remove("show");
+  }
+});
+
+// Smooth scroll to top when clicked
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});

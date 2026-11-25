@@ -3,306 +3,829 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shabbir's Portfolio</title>
-  <meta name="description" content="Portfolio of Shabbir, a full-stack web developer and ML enthusiast." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Shabbir | Software Developer &amp; ML Enthusiast</title>
+  <meta name="description" content="Portfolio of Shabbir, a full-stack web developer and ML enthusiast specializing in modern web apps and intelligent systems." />
+  <meta name="author" content="Shabbir" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Open Graph / Social Cards -->
   <meta property="og:title" content="Shabbir | Software Developer" />
   <meta property="og:description" content="Check out my projects, skills, and timeline!" />
-  <meta property="og:image"
-    content="https://raw.githubusercontent.com/shaiiiikh-github/portfolio/main/assets/shabbir.jpg" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/shaiiiikh-github/portfolio/main/assets/shabbir.jpg" />
   <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shabbir | Software Developer" />
+  <meta name="twitter:description" content="Check out my projects, skills, and timeline!" />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/shaiiiikh-github/portfolio/main/assets/shabbir.jpg" />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=Urbanist:wght@400;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
-    rel="stylesheet">
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
 
-
+  <!-- Preconnect for optional Inter font fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 </head>
 
 <body>
+  <!-- Skip to Content for Accessibility -->
+  <a href="#hero" class="skip-link">Skip to main content</a>
 
-  <!-- NAVIGATION -->
-  <header>
-    <nav class="glass">
-      <!-- Animated Dev Logo -->
-      <a href="#hero" class="logo">
+  <!-- DESKTOP & MOBILE TOP HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner glass">
+      <!-- Animated iOS Dev Logo -->
+      <a href="#hero" class="logo" aria-label="Shabbir's Portfolio Home">
         <span class="logo-bracket logo-open">&lt;</span>
         <span class="logo-name">Shabbir</span>
         <span class="logo-bracket logo-close">/&gt;</span>
       </a>
 
-      <!-- Navigation Links -->
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#timeline">Timeline</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <!-- Desktop Floating Segmented Nav -->
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul class="nav-links" id="nav-links" role="menubar">
+          <div class="nav-indicator" id="nav-indicator" aria-hidden="true"></div>
+          <li role="none"><a href="#hero" role="menuitem" class="nav-item active" data-section="hero">Home</a></li>
+          <li role="none"><a href="#skills" role="menuitem" class="nav-item" data-section="skills">Skills</a></li>
+          <li role="none"><a href="#projects" role="menuitem" class="nav-item" data-section="projects">Projects</a></li>
+          <li role="none"><a href="#timeline" role="menuitem" class="nav-item" data-section="timeline">Timeline</a></li>
+          <li role="none"><a href="#contact" role="menuitem" class="nav-item" data-section="contact">Contact</a></li>
+        </ul>
+      </nav>
 
-      <!-- Right-side controls (theme toggle + hamburger) -->
+      <!-- Theme Toggle Button (SF Symbol style) -->
       <div class="nav-right">
-        <button id="theme-toggle" aria-label="Toggle Theme">🌙</button>
-        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">&#9776;</button>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle light and dark theme">
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
       </div>
-    </nav>
+    </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="hero">
-    <div class="hero-container">
-      <!-- LEFT -->
-      <div class="hero-left">
-        <div class="profile-container">
-          <div class="profile-glow">
-            <img src="assets/shabbir.jpg" alt="Shabbir" class="profile-img" />
+  <main id="main-content">
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-container">
+        <!-- LEFT: Profile & Social App Icons -->
+        <div class="hero-left">
+          <div class="profile-container" id="profile-card">
+            <div class="profile-glow" aria-hidden="true"></div>
+            <picture class="profile-picture">
+              <source srcset="assets/shabbir.webp" type="image/webp" />
+              <img src="assets/shabbir.jpg" alt="Photo of Shabbir" class="profile-img" width="600" height="600" fetchpriority="high" decoding="async" />
+            </picture>
+          </div>
+
+          <!-- Social App Tiles -->
+          <div class="socials" aria-label="Social Profiles">
+            <a href="https://github.com/shaiiiikh-github" target="_blank" rel="noopener noreferrer" class="social-tile" aria-label="GitHub Profile">
+              <img src="assets/github.png" alt="GitHub" class="social-icon" width="48" height="48" />
+              <span class="social-label">GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank" rel="noopener noreferrer" class="social-tile" aria-label="LinkedIn Profile">
+              <img src="assets/linkedin.png" alt="LinkedIn" class="social-icon" width="48" height="48" />
+              <span class="social-label">LinkedIn</span>
+            </a>
+            <a href="mailto:shabbir23rd@gmail.com" class="social-tile" aria-label="Send Email">
+              <img src="assets/gmail.png" alt="Email" class="social-icon" width="48" height="48" />
+              <span class="social-label">Email</span>
+            </a>
+            <a href="https://www.instagram.com/shaiiiikh.ig/?__pwa=1" target="_blank" rel="noopener noreferrer" class="social-tile" aria-label="Instagram Profile">
+              <img src="assets/insta.png" alt="Instagram" class="social-icon" width="48" height="48" />
+              <span class="social-label">Instagram</span>
+            </a>
+          </div>
+
+          <!-- iOS 18 Dynamic Island Spotify Live Widget -->
+          <div class="spotify-widget glass" id="spotify-widget" aria-label="Spotify Now Playing Status">
+            <div class="spotify-art-wrapper">
+              <img id="spotify-art" src="assets/favicon.png" alt="Spotify Album Art" width="48" height="48" />
+              <div class="spotify-badge-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.495 17.306c-.216.353-.674.465-1.027.25-2.812-1.718-6.35-2.107-10.518-1.155-.403.093-.805-.16-.897-.563-.093-.404.16-.806.563-.898 4.562-1.042 8.487-.597 11.63 1.338.353.216.465.675.25 1.028zm1.464-3.256c-.272.443-.854.582-1.297.31-3.218-1.978-8.125-2.55-11.93-1.394-.5.152-1.03-.133-1.182-.633-.152-.5.133-1.03.633-1.182 4.353-1.32 9.76-.68 13.466 1.598.444.272.583.854.31 1.297zm.126-3.39c-3.858-2.29-10.222-2.502-13.886-1.39-.59.18-1.218-.16-1.398-.75-.18-.59.16-1.218.75-1.398 4.218-1.28 11.25-1.032 15.688 1.6c.53.315.704 1.002.39 1.532-.315.53-1.002.705-1.532.39z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="spotify-meta">
+              <div class="spotify-status-row">
+                <span class="spotify-status-label" id="spotify-status-label">Offline • Favorite Track</span>
+                <div class="spotify-eq" id="spotify-eq" aria-hidden="true">
+                  <span class="eq-col"></span>
+                  <span class="eq-col"></span>
+                  <span class="eq-col"></span>
+                  <span class="eq-col"></span>
+                </div>
+              </div>
+              <a id="spotify-title" href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-title">Starboy</a>
+              <p id="spotify-artist" class="spotify-artist">The Weeknd, Daft Punk</p>
+            </div>
           </div>
         </div>
 
-        <div class="socials">
-          <a href="https://github.com/shaiiiikh-github" target="_blank">
-            <img src="assets/github.png" alt="GitHub" class="social-icon" />
-          </a>
-          <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">
-            <img src="assets/linkedin.png" alt="LinkedIn" class="social-icon" />
-          </a>
-          <a href="mailto:shabbir23rd@gmail.com">
-            <img src="assets/gmail.png" alt="Email" class="social-icon" />
-          </a>
-          <a href="https://www.instagram.com/shaiiiikh.ig/?__pwa=1" target="_blank">
-            <img src="assets/insta.png" alt="Instagram" class="social-icon" />
-          </a>
+        <!-- RIGHT: Greeting & Actions -->
+        <div class="hero-right">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span> Available for opportunities
+          </div>
+          <div class="hero-text">
+            <p class="hero-greeting">Hello, I'm</p>
+            <h1 class="hero-name" id="hero-title">Shabbir</h1>
+            <p class="hero-subtitle">
+              <span id="typing-text"></span>
+            </p>
+          </div>
+
+          <div class="hero-buttons">
+            <a href="files/Shabbir_resume.pdf" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              View Resume
+            </a>
+            <a href="#projects" class="btn btn-primary">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              View My Work
+            </a>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- RIGHT -->
-      <div class="hero-right">
-        <div class="hero-text">
-          <h2>Hello, I'm</h2>
-          <h1>Shabbir</h1>
-          <p id="typing-text"></p>
+    <!-- SKILLS SECTION (iOS Settings-Style Bento Grid) -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="section-header">
+        <span class="section-caption">Core Competencies</span>
+        <h2 class="section-title" id="skills-title">Skills &amp; Technologies</h2>
+      </div>
+
+      <div class="bento-container">
+        <!-- Frontend Widget -->
+        <div class="bento-card glass">
+          <div class="bento-header">
+            <div class="bento-icon-badge badge-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <div>
+              <h3 class="bento-title">Frontend Engineering</h3>
+              <p class="bento-subtitle">Modern interactive interfaces &amp; web apps</p>
+            </div>
+          </div>
+          <div class="chips-group">
+            <span class="chip">HTML5</span>
+            <span class="chip">CSS3</span>
+            <span class="chip">JavaScript (ES6+)</span>
+            <span class="chip">React</span>
+          </div>
         </div>
 
-        <div class="hero-buttons">
-          <a href="files/shabbir_resume.pdf" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
-          📄 View Resume
-          </a>
+        <!-- Backend Widget -->
+        <div class="bento-card glass">
+          <div class="bento-header">
+            <div class="bento-icon-badge badge-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            </div>
+            <div>
+              <h3 class="bento-title">Backend &amp; APIs</h3>
+              <p class="bento-subtitle">Robust server logic &amp; relational databases</p>
+            </div>
+          </div>
+          <div class="chips-group">
+            <span class="chip">Python</span>
+            <span class="chip">Node.js</span>
+            <span class="chip">Flask</span>
+            <span class="chip">MySQL</span>
+          </div>
+        </div>
 
-          <a href="#projects" class="btn">🚀 View My Work</a>
+        <!-- Machine Learning Widget -->
+        <div class="bento-card glass">
+          <div class="bento-header">
+            <div class="bento-icon-badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path><path d="M12 6a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"></path></svg>
+            </div>
+            <div>
+              <h3 class="bento-title">AI &amp; Machine Learning</h3>
+              <p class="bento-subtitle">Predictive models, NLP &amp; classification</p>
+            </div>
+          </div>
+          <div class="chips-group">
+            <span class="chip">Machine Learning</span>
+            <span class="chip">scikit-learn</span>
+            <span class="chip">NLP</span>
+            <span class="chip">Data Modeling</span>
+          </div>
+        </div>
+
+        <!-- Hardware & Tools Widget -->
+        <div class="bento-card glass">
+          <div class="bento-header">
+            <div class="bento-icon-badge badge-orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            </div>
+            <div>
+              <h3 class="bento-title">Hardware &amp; Tools</h3>
+              <p class="bento-subtitle">Embedded systems, IoT &amp; version control</p>
+            </div>
+          </div>
+          <div class="chips-group">
+            <span class="chip">Arduino / IoT</span>
+            <span class="chip">Git &amp; GitHub</span>
+            <span class="chip">REST APIs</span>
+            <span class="chip">Linux Shell</span>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-
-
-  <!-- SKILLS SECTION -->
-  <section class="section" id="skills">
-    <h2 class="section-title">Skills</h2>
-    <div class="skills-grid">
-      <div class="skill">HTML</div>
-      <div class="skill">CSS</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">React</div>
-      <div class="skill">Node.js</div>
-      <div class="skill">MySQL</div>
-      <div class="skill">Flask</div>
-    </div>
-  </section>
-
-  <!-- PROJECTS SECTION -->
-  <section id="projects" class="projects-section">
-
-    <h2>My Projects</h2>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <img src="assets/crop.png" alt="Crop Recommendation System" class="project-image" loading="lazy">
-        <h3>Crop Recommendation System</h3>
-        <p>Built a Crop Recommendation System using machine learning to suggest the most suitable crops based on soil,
-          weather, and location data. The system empowers farmers with data-driven decisions to improve yield and
-          profitability.</p>
-        <a href="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION" class="view-btn">View Project</a>
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="section projects-section" aria-labelledby="projects-title">
+      <div class="section-header">
+        <span class="section-caption">Portfolio Showcase</span>
+        <h2 class="section-title" id="projects-title">Featured Projects</h2>
       </div>
 
-      <div class="project-card">
-        <img src="assets/qr.png" alt="QR Code Generator" class="project-image" loading="lazy">
-        <h3>QR Code Generator</h3>
-        <p>Developed a web application that instantly generates downloadable QR codes for any text or URL. Built with
-          Flask and Python, it tracks generation counts and provides real-time QR preview functionality.</p>
-        <a href="https://qr-genera-0v45.onrender.com" class="view-btn">Open</a>
+      <!-- iOS Segmented Filter -->
+      <div class="segmented-control" role="tablist" aria-label="Project filter">
+        <button class="seg-btn active" role="tab" aria-selected="true" data-filter="all">All</button>
+        <button class="seg-btn" role="tab" aria-selected="false" data-filter="web">Web</button>
+        <button class="seg-btn" role="tab" aria-selected="false" data-filter="ml">ML &amp; AI</button>
+        <button class="seg-btn" role="tab" aria-selected="false" data-filter="iot">IoT</button>
+        <button class="seg-btn" role="tab" aria-selected="false" data-filter="tools">Tools</button>
       </div>
 
-      <div class="project-card">
-        <img src="assets/pixel_np.png" alt="Pixel Cloud Notepad" class="project-image" loading="lazy">
-        <h3>Pixel Cloud Notepad</h3>
-        <p>Designed Pixel Cloud Notepad, a minimalist cloud-based note-taking application with real-time syncing.
-          Focused on clean UI design and efficient note management for seamless accessibility across devices.</p>
-        <a href="https://pixel-notepad.onrender.com" class="view-btn">Open Notepad</a>
+      <div class="project-grid">
+
+        <!-- 1. Crop Recommendation System -->
+        <article class="project-card glass" data-category="ml" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Crop Recommendation System"
+          data-img-webp="assets/crop.webp"
+          data-img-fallback="assets/crop.png"
+          data-tags="Machine Learning,Python,Data Analytics,Agriculture"
+          data-link="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION"
+          data-btn-text="View Project">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/crop.webp" type="image/webp" />
+              <img src="assets/crop.png" alt="Crop Recommendation System preview" class="project-image" loading="lazy" width="800" height="417" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">ML &amp; AI</span>
+              <span class="card-chip">Python</span>
+            </div>
+            <h3 class="project-title">Crop Recommendation System</h3>
+            <p class="project-desc">Built a Crop Recommendation System using machine learning to suggest the most suitable crops based on soil, weather, and location data. The system empowers farmers with data-driven decisions to improve yield and profitability.</p>
+            <div class="card-footer">
+              <a href="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. QR Code Generator -->
+        <article class="project-card glass" data-category="web tools" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="QR Code Generator"
+          data-img-webp="assets/qr.webp"
+          data-img-fallback="assets/qr.png"
+          data-tags="Flask,Python,Web App,Utility"
+          data-link="https://qr-genera-0v45.onrender.com"
+          data-btn-text="Open App">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/qr.webp" type="image/webp" />
+              <img src="assets/qr.png" alt="QR Code Generator preview" class="project-image" loading="lazy" width="800" height="400" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">Web</span>
+              <span class="card-chip">Flask</span>
+            </div>
+            <h3 class="project-title">QR Code Generator</h3>
+            <p class="project-desc">Developed a web application that instantly generates downloadable QR codes for any text or URL. Built with Flask and Python, it tracks generation counts and provides real-time QR preview functionality.</p>
+            <div class="card-footer">
+              <a href="https://qr-genera-0v45.onrender.com" class="view-btn" target="_blank" rel="noopener noreferrer">Open &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Pixel Cloud Notepad -->
+        <article class="project-card glass" data-category="web tools" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Pixel Cloud Notepad"
+          data-img-webp="assets/pixel_np.webp"
+          data-img-fallback="assets/pixel_np.png"
+          data-tags="Cloud Notes,JavaScript,Realtime Sync,Responsive UI"
+          data-link="https://pixel-notepad.onrender.com"
+          data-btn-text="Open Notepad">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/pixel_np.webp" type="image/webp" />
+              <img src="assets/pixel_np.png" alt="Pixel Cloud Notepad preview" class="project-image" loading="lazy" width="800" height="360" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">Web</span>
+              <span class="card-chip">Cloud Sync</span>
+            </div>
+            <h3 class="project-title">Pixel Cloud Notepad</h3>
+            <p class="project-desc">Designed Pixel Cloud Notepad, a minimalist cloud-based note-taking application with real-time syncing. Focused on clean UI design and efficient note management for seamless accessibility across devices.</p>
+            <div class="card-footer">
+              <a href="https://pixel-notepad.onrender.com" class="view-btn" target="_blank" rel="noopener noreferrer">Open Notepad &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. Clipboard Logger -->
+        <article class="project-card glass" data-category="tools" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Clipboard Logger"
+          data-img-webp="assets/clipboard_logger.webp"
+          data-img-fallback="assets/clipboard_logger.png"
+          data-tags="Python,System Automation,Security,Desktop Script"
+          data-link="https://github.com/shaiiiikh-github/clipboard_logger"
+          data-btn-text="View Project">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/clipboard_logger.webp" type="image/webp" />
+              <img src="assets/clipboard_logger.png" alt="Clipboard Logger preview" class="project-image" loading="lazy" width="800" height="533" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">Tools</span>
+              <span class="card-chip">Python</span>
+            </div>
+            <h3 class="project-title">Clipboard Logger</h3>
+            <p class="project-desc">Created a Python-based Clipboard Logger to monitor and log clipboard activity, demonstrating system-level scripting and automation skills with practical data tracking implementation.</p>
+            <div class="card-footer">
+              <a href="https://github.com/shaiiiikh-github/clipboard_logger" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. Memory Matching Game -->
+        <article class="project-card glass" data-category="web" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Memory Matching Game"
+          data-img-webp="assets/game.webp"
+          data-img-fallback="assets/game.png"
+          data-tags="HTML5,CSS3,JavaScript,Game Logic"
+          data-link="https://game-vas2.onrender.com/"
+          data-btn-text="Play Game">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/game.webp" type="image/webp" />
+              <img src="assets/game.png" alt="Memory Matching Game preview" class="project-image" loading="lazy" width="800" height="469" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">Web</span>
+              <span class="card-chip">Game</span>
+            </div>
+            <h3 class="project-title">Memory Matching Game</h3>
+            <p class="project-desc">Built an interactive Memory Matching Game using HTML, CSS, and JavaScript. The game challenges users to find matching card pairs with smooth animations and responsive design for all screen sizes.</p>
+            <div class="card-footer">
+              <a href="https://game-vas2.onrender.com/" class="view-btn" target="_blank" rel="noopener noreferrer">Play &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. Fake Instagram Account Detection -->
+        <article class="project-card glass" data-category="ml" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Fake Instagram Account Detection"
+          data-img-webp="assets/Fake.webp"
+          data-img-fallback="assets/Fake.png"
+          data-tags="Machine Learning,KNN,Data Science,Jupyter"
+          data-link="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING"
+          data-btn-text="View Project">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/Fake.webp" type="image/webp" />
+              <img src="assets/Fake.png" alt="Fake Instagram Account Detection preview" class="project-image" loading="lazy" width="800" height="535" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">ML &amp; AI</span>
+              <span class="card-chip">Classification</span>
+            </div>
+            <h3 class="project-title">Fake Instagram Account Detection</h3>
+            <p class="project-desc">Developed a Fake Instagram Account Detection system using KNN and other machine learning algorithms in Jupyter Notebook. The system identifies suspicious profiles based on behavioral patterns and automatically generates reports.</p>
+            <div class="card-footer">
+              <a href="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 7. Smart Agro-Solar System -->
+        <article class="project-card glass" data-category="iot ml" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Smart Agro-Solar System"
+          data-img-webp="assets/SmartAgro.webp"
+          data-img-fallback="assets/SmartAgro.png"
+          data-tags="IoT,Hardware,Solar Optimization,Machine Learning"
+          data-link="https://github.com/Sahil-006/Smart-Agro"
+          data-btn-text="View Project">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/SmartAgro.webp" type="image/webp" />
+              <img src="assets/SmartAgro.png" alt="Smart Agro-Solar System preview" class="project-image" loading="lazy" width="800" height="412" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">IoT</span>
+              <span class="card-chip">Solar Energy</span>
+            </div>
+            <h3 class="project-title">Smart Agro-Solar System</h3>
+            <p class="project-desc">Developed a Smart Agro-Solar System using IoT sensors and machine learning models. The system monitors soil moisture, temperature, humidity, and pH levels in real time, provides crop recommendations, and optimizes solar energy usage through a cloud-based dashboard.</p>
+            <div class="card-footer">
+              <a href="https://github.com/Sahil-006/Smart-Agro" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8. IntelliHelp AI -->
+        <article class="project-card glass" data-category="ml" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="IntelliHelp AI"
+          data-img-webp="assets/Intellu.webp"
+          data-img-fallback="assets/Intellu.png"
+          data-tags="NLP,Document AI,Context Search,Python"
+          data-link="https://github.com/shaiiiikh-github/Intelli-Help"
+          data-btn-text="View Project">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/Intellu.webp" type="image/webp" />
+              <img src="assets/Intellu.png" alt="IntelliHelp AI Platform preview" class="project-image" loading="lazy" width="800" height="390" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">AI &amp; NLP</span>
+              <span class="card-chip">Document QA</span>
+            </div>
+            <h3 class="project-title">IntelliHelp AI</h3>
+            <p class="project-desc">Developed an IntelliHelp AI platform that allows users to upload device manuals and ask queries directly. The system processes uploaded documents using NLP techniques and provides instant, context-aware answers, eliminating the need to manually read lengthy manuals.</p>
+            <div class="card-footer">
+              <a href="https://github.com/shaiiiikh-github/Intelli-Help" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9. Suraksha Yatra -->
+        <article class="project-card glass" data-category="web iot" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Suraksha Yatra"
+          data-img-webp="assets/suraksha.webp"
+          data-img-fallback="assets/suraksha.png"
+          data-tags="Geolocation,Realtime SOS,Community Chat,Safety"
+          data-link="https://github.com/Sahil-006/SmartTouristSOS"
+          data-btn-text="View Project">
+          <div class="project-image-wrapper">
+            <picture>
+              <source srcset="assets/suraksha.webp" type="image/webp" />
+              <img src="assets/suraksha.png" alt="Suraksha Yatra Travel Safety Platform preview" class="project-image" loading="lazy" width="800" height="390" />
+            </picture>
+            <div class="card-gradient-overlay"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-chips">
+              <span class="card-chip">Web</span>
+              <span class="card-chip">Safety Tech</span>
+            </div>
+            <h3 class="project-title">Suraksha Yatra</h3>
+            <p class="project-desc">Developed Suraksha Yatra, a travel safety platform designed for tourists. The system enables users to create travel groups, track live locations of members, receive alerts if someone gets separated, and share experiences through a community chat feature.</p>
+            <div class="card-footer">
+              <a href="https://github.com/Sahil-006/SmartTouristSOS" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- TIMELINE SECTION (iOS Grouped Timeline with Sticky Year Headers) -->
+    <section class="section" id="timeline" aria-labelledby="timeline-title">
+      <div class="section-header">
+        <span class="section-caption">Experience &amp; Milestones</span>
+        <h2 class="section-title" id="timeline-title">Journey &amp; Achievements</h2>
       </div>
 
-      <div class="project-card">
-        <img src="assets/clipboard_logger.png" alt="Clipboard Logger" class="project-image" loading="lazy">
-        <h3>Clipboard Logger</h3>
-        <p>Created a Python-based Clipboard Logger to monitor and log clipboard activity, demonstrating system-level
-          scripting and automation skills with practical data tracking implementation.</p>
-        <a href="https://github.com/shaiiiikh-github/clipboard_logger" class="view-btn">View Project</a>
+      <div class="timeline-container">
+        <!-- Year 2025 -->
+        <div class="timeline-year-group">
+          <div class="year-header glass">
+            <span class="year-pill">2025</span>
+          </div>
+          <ul class="timeline-items" role="list">
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Currently working on <strong>QR Manager</strong>, a tool for generating, organizing, and managing custom QR codes.</p>
+              </div>
+            </li>
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Developed <strong>Pixel Notepad</strong>, a minimalist cloud-based note-taking app with real-time saving and responsive design.</p>
+              </div>
+            </li>
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Created <strong>Clipboard Logger</strong> for system-level clipboard monitoring and automation (for educational use).</p>
+              </div>
+            </li>
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Attended <strong>TicTechToe Hackathon</strong> at DAIICT and built <strong>Talk-Edge</strong>, a platform for real-time structured discussions.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Year 2024 -->
+        <div class="timeline-year-group">
+          <div class="year-header glass">
+            <span class="year-pill">2024</span>
+          </div>
+          <ul class="timeline-items" role="list">
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Developed a <strong>Memory Matching Game</strong> to improve visual memory using JavaScript and interactive UI.</p>
+              </div>
+            </li>
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Attended Hackout'24 and built <strong>CropRec</strong>, an ML model that recommends optimal crops based on soil and weather data.</p>
+              </div>
+            </li>
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Built a <strong>Ship Routing Optimization System</strong> for a hackathon to minimize maritime travel cost and time.</p>
+              </div>
+            </li>
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Selected for <strong>CVMU Hackathon 2.0</strong> and contributed to a security tool that detects and deletes emails containing malicious links.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Year 2023 -->
+        <div class="timeline-year-group">
+          <div class="year-header glass">
+            <span class="year-pill">2023</span>
+          </div>
+          <ul class="timeline-items" role="list">
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Attended first hackathon (<strong>Smart India Hackathon</strong>) and developed a <strong>fake social media account detection system</strong>.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Year 2022 -->
+        <div class="timeline-year-group">
+          <div class="year-header glass">
+            <span class="year-pill">2022</span>
+          </div>
+          <ul class="timeline-items" role="list">
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Built a <strong>Bluetooth-controlled car</strong> using Arduino and a smartphone app, exploring early interest in robotics and IoT.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Year 2019 -->
+        <div class="timeline-year-group">
+          <div class="year-header glass">
+            <span class="year-pill">2019</span>
+          </div>
+          <ul class="timeline-items" role="list">
+            <li class="timeline-card glass">
+              <div class="timeline-icon-box badge-orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              </div>
+              <div class="timeline-content">
+                <p>Designed an <strong>automatic smart dustbin</strong> using Arduino and ultrasonic sensors to promote hygienic waste disposal.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION (iOS Inset-Grouped Form) -->
+    <section class="contact section" id="contact" aria-labelledby="contact-title">
+      <div class="section-header">
+        <span class="section-caption">Get in Touch</span>
+        <h2 class="section-title" id="contact-title">Let's Connect</h2>
       </div>
 
-      <div class="project-card">
-        <img src="assets/game.png" alt="Memory Matching Game" class="project-image" loading="lazy">
-        <h3>Memory Matching Game</h3>
-        <p>Built an interactive Memory Matching Game using HTML, CSS, and JavaScript. The game challenges users to find
-          matching card pairs with smooth animations and responsive design for all screen sizes.</p>
-        <a href="https://game-vas2.onrender.com/" class="view-btn">Play</a>
+      <div class="contact-wrapper">
+        <form class="contact-form glass" action="https://formspree.io/f/xgvarvzp" method="POST" novalidate>
+          <div class="form-group">
+            <label for="contact-name" class="floating-label">Your Name</label>
+            <input type="text" id="contact-name" name="name" class="form-input" placeholder="Your Name" required autocomplete="name" enterkeyhint="next" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email" class="floating-label">Your Email</label>
+            <input type="email" id="contact-email" name="email" class="form-input" placeholder="Your Email" required autocomplete="email" inputmode="email" enterkeyhint="next" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message" class="floating-label">Your Message</label>
+            <textarea id="contact-message" name="message" class="form-input form-textarea" placeholder="Your Message" rows="5" required enterkeyhint="send"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="btn-text">Send Message</span>
+          </button>
+          <p id="form-status" class="form-status" aria-live="polite"></p>
+        </form>
       </div>
-
-      <div class="project-card">
-        <img src="assets/Fake.png" alt="Fake Instagram Account Detection" class="project-image" loading="lazy">
-        <h3>Fake Instagram Account Detection</h3>
-        <p>Developed a Fake Instagram Account Detection system using KNN and other machine learning algorithms in
-          Jupyter Notebook. The system identifies suspicious profiles based on behavioral patterns and automatically
-          generates reports.</p>
-        <a href="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING"
-          class="view-btn">View Project</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/SmartAgro.png" alt="Smart Agro-Solar System" class="project-image" loading="lazy">
-        <h3>Smart Agro-Solar System</h3>
-        <p>Developed a Smart Agro-Solar System using IoT sensors and machine learning models. The system monitors soil
-          moisture, temperature, humidity, and pH levels in real time, provides crop recommendations, and optimizes
-          solar energy usage through a cloud-based dashboard.</p>
-        <a href="https://github.com/Sahil-006/Smart-Agro" class="view-btn">View Project</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/Intellu.png" alt="IntelliHelp AI Platform" class="project-image" loading="lazy">
-        <h3>IntelliHelp AI</h3>
-        <p>Developed an IntelliHelp AI platform that allows users to upload device manuals and ask queries directly. The
-          system processes uploaded documents using NLP techniques and provides instant, context-aware answers,
-          eliminating the need to manually read lengthy manuals.</p>
-        <a href="https://github.com/shaiiiikh-github/Intelli-Help" class="view-btn">View Project</a>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/SURAKSHA (1).png" alt="Suraksha Yatra Travel Safety Platform" class="project-image"
-          loading="lazy">
-        <h3>Suraksha Yatra</h3>
-        <p>Developed Suraksha Yatra, a travel safety platform designed for tourists. The system enables users to create
-          travel groups, track live locations of members, receive alerts if someone gets separated, and share
-          experiences through a community chat feature.</p>
-        <a href="https://github.com/Sahil-006/SmartTouristSOS" class="view-btn">View Project</a>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- TIMELINE SECTION -->
-  <section class="section" id="timeline">
-    <h2 class="section-title">Timeline</h2>
-    <div class="underline"></div>
-    <ul class="timeline-list">
-      <li>
-        <span class="date">2025</span>
-        <p>Currently working on <strong>QR Manager</strong>, a tool for generating, organizing, and managing custom QR
-          codes.</p>
-      </li>
-      <li>
-        <span class="date">2025</span>
-        <p>Developed <strong>Pixel Notepad</strong>, a minimalist cloud-based note-taking app with real-time saving and
-          responsive design.</p>
-      </li>
-      <li>
-        <span class="date">2025</span>
-        <p>Created <strong>Clipboard Logger</strong> for system-level clipboard monitoring and automation (for
-          educational use).</p>
-      </li>
-      <li>
-        <span class="date">2025</span>
-        <p>Attended <strong>TicTechToe Hackathon</strong> at DAIICT and built <strong>Talk-Edge</strong>, a platform for
-          real-time structured discussions.</p>
-      </li>
-      <li>
-        <span class="date">2024</span>
-        <p>Developed a <strong>Memory Matching Game</strong> to improve visual memory using JavaScript and interactive
-          UI.</p>
-      </li>
-      <li>
-        <span class="date">2024</span>
-        <p>Attended a Hackout'24 and built<strong>CropRec</strong> which gives the best suggested crop to grow</p>
-      </li>
-      <li>
-        <span class="date">2024</span>
-        <p>Built a <strong>Ship Routing Optimization System</strong> for a hackathon to minimize maritime travel cost
-          and time.</p>
-      </li>
-      <li>
-        <span class="date">2024</span>
-        <p>Selected for <strong>CVMU Hackathon 2.0</strong> and contributed to a solution which deletes the email
-          contains malicious link</p>
-      </li>
-      <li>
-        <span class="date">2023</span>
-        <p>Attended first hackathon (<strong>Smart India Hackathon</strong>) and developed a <strong>fake social media
-            account detection system</strong>.</p>
-      </li>
-      <li>
-        <span class="date">2022</span>
-        <p>Built a <strong>Bluetooth-controlled car</strong> using Arduino and a smartphone app, exploring early
-          interest in robotics and IoT.</p>
-      </li>
-      <li>
-        <span class="date">2019</span>
-        <p>Designed an <strong>automatic smart dustbin</strong> using Arduino and ultrasonic sensors to promote hygienic
-          waste disposal.</p>
-      </li>
-
-
-    </ul>
-  </section>
-
-
-
-
-  <!-- CONTACT SECTION -->
-
-  <section class="contact section" id="contact">
-    <h2 class="section-title">Contact</h2>
-
-    <form class="contact-form" action="https://formspree.io/f/xgvarvzp" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" placeholder="Your Message" required></textarea>
-      <button type="submit" class="btn">Send Message</button>
-      <p id="form-status" class="form-status"></p>
-    </form>
-  </section>
-
-  <p id="form-status" style="margin-top: 15px;"></p>
-
-
+    </section>
+  </main>
 
   <!-- FOOTER -->
-  <footer>
-    <p>Thank You so much for visiting, Suggestions are appreciated ! </p>
+  <footer class="site-footer glass">
+    <div class="footer-container">
+      <p class="footer-message">Thank you for visiting! Suggestions and feedback are always welcome.</p>
 
-    <p style="margin-top: 10px; font-weight: bold; color: var(--accent);">
-      Total Visitors: <span id="visit-count">...</span>
-    </p>
-    <div class="footer-socials">
-      <a href="https://github.com/shaiiiikh-github" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">LinkedIn</a>
+      <div class="visitor-counter-pill glass" aria-label="Visitor count">
+        <span class="pulse-dot"></span>
+        <span class="visitor-text">Total Visitors: <strong id="visit-count">...</strong></span>
+      </div>
 
-
+      <div class="footer-socials" aria-label="Footer links">
+        <a href="https://github.com/shaiiiikh-github" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="footer-dot" aria-hidden="true">&bull;</span>
+        <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
     </div>
   </footer>
-  <button id="backToTopBtn" aria-label="Go to top">↑</button>
+
+  <!-- MOBILE BOTTOM FLOATING TAB BAR -->
+  <nav class="mobile-tab-bar glass" aria-label="Mobile Navigation">
+    <a href="#hero" class="tab-item active" data-section="hero" aria-label="Home">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span class="tab-label">Home</span>
+    </a>
+    <a href="#skills" class="tab-item" data-section="skills" aria-label="Skills">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </svg>
+      <span class="tab-label">Skills</span>
+    </a>
+    <a href="#projects" class="tab-item" data-section="projects" aria-label="Projects">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+      <span class="tab-label">Projects</span>
+    </a>
+    <a href="#timeline" class="tab-item" data-section="timeline" aria-label="Timeline">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span class="tab-label">Timeline</span>
+    </a>
+    <a href="#contact" class="tab-item" data-section="contact" aria-label="Contact">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+      <span class="tab-label">Contact</span>
+    </a>
+  </nav>
+
+  <!-- BACK TO TOP BUTTON -->
+  <button id="backToTopBtn" class="back-to-top glass" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- iOS-STYLE PROJECT DETAIL MODAL / SHEET -->
+  <div id="project-sheet" class="sheet-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-container glass">
+      <div class="sheet-grabber" aria-hidden="true"></div>
+      <button class="sheet-close-btn" id="sheet-close-btn" aria-label="Close dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="sheet-body">
+        <div class="sheet-image-wrapper">
+          <picture id="sheet-picture">
+            <source id="sheet-source-webp" srcset="" type="image/webp" />
+            <img id="sheet-img" src="" alt="Project screenshot" />
+          </picture>
+        </div>
+        <div class="sheet-info">
+          <h3 id="sheet-title" class="sheet-title"></h3>
+          <div id="sheet-tags" class="chips-group"></div>
+          <p id="sheet-desc" class="sheet-desc"></p>
+          <div class="sheet-actions">
+            <a id="sheet-action-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary sheet-btn">Open Project &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- iOS-STYLE TOAST NOTIFICATION -->
+  <div id="ios-toast" class="ios-toast glass" role="alert" aria-live="assertive" aria-hidden="true">
+    <div class="toast-icon-wrapper" id="toast-icon-wrapper">
+      <svg id="toast-icon-success" class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <svg id="toast-icon-error" class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+    </div>
+    <span class="toast-message" id="toast-message">Message sent successfully!</span>
+  </div>
 
 </body>
-
 </html>

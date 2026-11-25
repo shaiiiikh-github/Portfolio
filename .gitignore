@@ -1,0 +1,14 @@
+# Backup directories
+backup-original/
+backup-spotify-debug/
+backup*/
+
+# Testing & temporary files
+screenshots/
+commit_and_push.py
+__pycache__/
+*.pyc
+
+# OS metadata
+.DS_Store
+Thumbs.db

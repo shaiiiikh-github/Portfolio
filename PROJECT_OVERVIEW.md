@@ -140,8 +140,18 @@ The site features dynamic theme switching between **iOS Dark Mode** (default) an
 * Async submission with `try/catch/finally`: disables submit button, renders an inline spinning indicator, and displays feedback as a floating **iOS capsule Toast notification**.
 
 ### 4.7 Footer & Utilities
-* Visitor Counter: Queries CounterAPI (`shabbir-portfolio-2025/visits`). Uses `sessionStorage` to count visits **strictly once per browser session**, avoiding inflated numbers on reloads. Falls back cleanly to "Unavailable" on network/adblock failure.
+* Visitor Counter: Queries live visitor badge endpoint (`https://api.visitorbadge.io/api/visitors?path=shaiiiikh-github.portfolio`). Uses a single, transparent fetch without session gating or hardcoded baselines. Falls back cleanly to "Unavailable" on network/adblock failure.
 * Back-to-Top Button (`#backToTopBtn`): Floating circular glass button located above the bottom tab bar on mobile (`bottom: calc(env(safe-area-inset-bottom) + 74px)`) and bottom-right on desktop. Appears after scrolling 300px.
+
+### 4.8 Spotify Now Playing Dynamic Island Widget
+* Markup: `#spotify-widget` located in the hero profile card with `#spotify-art`, `#spotify-status-label`, `#spotify-title`, `#spotify-artist`, and animated sound equalizer bars (`#spotify-eq`).
+* Integration: Driven by Lanyard REST API (`https://api.lanyard.rest/v1/users/{DISCORD_USER_ID}`). Requires zero server credentials, API keys, client secrets, or refresh tokens in frontend code.
+* Lifecycle & Resilience:
+  - Polling interval: 20 seconds.
+  - Lifecycle management: Automatically pauses polling via `document.addEventListener("visibilitychange")` when the tab is hidden or backgrounded, eliminating unnecessary background network traffic.
+  - AbortController: 8-second request timeout guards against slow networks or hanging requests.
+  - Fallback state: When offline or paused, displays a calm "Not listening right now" fallback with track title, artist, and album art, avoiding blank UI states or raw error messages.
+  - Accessibility: Respects `prefers-reduced-motion` by disabling equalizer bouncing animations and vinyl spin, and supports screen readers with `aria-live="polite"`.
 
 ---
 

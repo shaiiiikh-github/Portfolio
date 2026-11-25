@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shabbir's Portfolio</title>
+  <meta name="description" content="Portfolio of Shabbir, a full-stack web developer and ML enthusiast." />
+  <meta property="og:title" content="Shabbir | Software Developer" />
+  <meta property="og:description" content="Check out my projects, skills, and timeline!" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/shaiiiikh-github/portfolio/main/assets/shabbir.jpg" />
+  <meta property="og:type" content="website" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=Urbanist:wght@400;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
+
+
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+    <nav class="glass">
+      <!-- Animated Dev Logo -->
+      <a href="#hero" class="logo">
+        <span class="logo-bracket logo-open">&lt;</span>
+        <span class="logo-name">Shabbir</span>
+        <span class="logo-bracket logo-close">/&gt;</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Right-side controls (theme toggle + hamburger) -->
+      <div class="nav-right">
+        <button id="theme-toggle" aria-label="Toggle Theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">&#9776;</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-container">
+      <!-- LEFT -->
+      <div class="hero-left">
+        <div class="profile-container">
+          <div class="profile-glow">
+            <img src="assets/shabbir.jpg" alt="Shabbir" class="profile-img" />
+          </div>
+        </div>
+
+        <div class="socials">
+          <a href="https://github.com/shaiiiikh-github" target="_blank">
+            <img src="assets/github.png" alt="GitHub" class="social-icon" />
+          </a>
+          <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">
+            <img src="assets/linkedin.png" alt="LinkedIn" class="social-icon" />
+          </a>
+          <a href="mailto:shabbir23rd@gmail.com">
+            <img src="assets/gmail.png" alt="Email" class="social-icon" />
+          </a>
+          <a href="https://www.instagram.com/shaiiiikh.ig/?__pwa=1" target="_blank">
+            <img src="assets/insta.png" alt="Instagram" class="social-icon" />
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="hero-right">
+        <div class="hero-text">
+          <h2>Hello, I'm</h2>
+          <h1>Shabbir</h1>
+          <p id="typing-text"></p>
+        </div>
+
+        <div class="hero-buttons">
+          <a href="files/shabbir_resume.pdf" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          📄 View Resume
+          </a>
+
+          <a href="#projects" class="btn">🚀 View My Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- SKILLS SECTION -->
+  <section class="section" id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill">HTML</div>
+      <div class="skill">CSS</div>
+      <div class="skill">JavaScript</div>
+      <div class="skill">React</div>
+      <div class="skill">Node.js</div>
+      <div class="skill">MySQL</div>
+      <div class="skill">Flask</div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects" class="projects-section">
+
+    <h2>My Projects</h2>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <img src="assets/crop.png" alt="Crop Recommendation System" class="project-image" loading="lazy">
+        <h3>Crop Recommendation System</h3>
+        <p>Built a Crop Recommendation System using machine learning to suggest the most suitable crops based on soil,
+          weather, and location data. The system empowers farmers with data-driven decisions to improve yield and
+          profitability.</p>
+        <a href="https://github.com/shaiiiikh-github/CROP-RECOMMENDATION" class="view-btn">View Project</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/qr.png" alt="QR Code Generator" class="project-image" loading="lazy">
+        <h3>QR Code Generator</h3>
+        <p>Developed a web application that instantly generates downloadable QR codes for any text or URL. Built with
+          Flask and Python, it tracks generation counts and provides real-time QR preview functionality.</p>
+        <a href="https://qr-genera-0v45.onrender.com" class="view-btn">Open</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/pixel_np.png" alt="Pixel Cloud Notepad" class="project-image" loading="lazy">
+        <h3>Pixel Cloud Notepad</h3>
+        <p>Designed Pixel Cloud Notepad, a minimalist cloud-based note-taking application with real-time syncing.
+          Focused on clean UI design and efficient note management for seamless accessibility across devices.</p>
+        <a href="https://pixel-notepad.onrender.com" class="view-btn">Open Notepad</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/clipboard_logger.png" alt="Clipboard Logger" class="project-image" loading="lazy">
+        <h3>Clipboard Logger</h3>
+        <p>Created a Python-based Clipboard Logger to monitor and log clipboard activity, demonstrating system-level
+          scripting and automation skills with practical data tracking implementation.</p>
+        <a href="https://github.com/shaiiiikh-github/clipboard_logger" class="view-btn">View Project</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/game.png" alt="Memory Matching Game" class="project-image" loading="lazy">
+        <h3>Memory Matching Game</h3>
+        <p>Built an interactive Memory Matching Game using HTML, CSS, and JavaScript. The game challenges users to find
+          matching card pairs with smooth animations and responsive design for all screen sizes.</p>
+        <a href="https://game-vas2.onrender.com/" class="view-btn">Play</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/Fake.png" alt="Fake Instagram Account Detection" class="project-image" loading="lazy">
+        <h3>Fake Instagram Account Detection</h3>
+        <p>Developed a Fake Instagram Account Detection system using KNN and other machine learning algorithms in
+          Jupyter Notebook. The system identifies suspicious profiles based on behavioral patterns and automatically
+          generates reports.</p>
+        <a href="https://github.com/shaiiiikh-github/FAKE-INSTAGRAM-ACCOUNT-DETECTION-AND-REPORTING"
+          class="view-btn">View Project</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/SmartAgro.png" alt="Smart Agro-Solar System" class="project-image" loading="lazy">
+        <h3>Smart Agro-Solar System</h3>
+        <p>Developed a Smart Agro-Solar System using IoT sensors and machine learning models. The system monitors soil
+          moisture, temperature, humidity, and pH levels in real time, provides crop recommendations, and optimizes
+          solar energy usage through a cloud-based dashboard.</p>
+        <a href="https://github.com/Sahil-006/Smart-Agro" class="view-btn">View Project</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/Intellu.png" alt="IntelliHelp AI Platform" class="project-image" loading="lazy">
+        <h3>IntelliHelp AI</h3>
+        <p>Developed an IntelliHelp AI platform that allows users to upload device manuals and ask queries directly. The
+          system processes uploaded documents using NLP techniques and provides instant, context-aware answers,
+          eliminating the need to manually read lengthy manuals.</p>
+        <a href="https://github.com/shaiiiikh-github/Intelli-Help" class="view-btn">View Project</a>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/SURAKSHA (1).png" alt="Suraksha Yatra Travel Safety Platform" class="project-image"
+          loading="lazy">
+        <h3>Suraksha Yatra</h3>
+        <p>Developed Suraksha Yatra, a travel safety platform designed for tourists. The system enables users to create
+          travel groups, track live locations of members, receive alerts if someone gets separated, and share
+          experiences through a community chat feature.</p>
+        <a href="https://github.com/Sahil-006/SmartTouristSOS" class="view-btn">View Project</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- TIMELINE SECTION -->
+  <section class="section" id="timeline">
+    <h2 class="section-title">Timeline</h2>
+    <div class="underline"></div>
+    <ul class="timeline-list">
+      <li>
+        <span class="date">2025</span>
+        <p>Currently working on <strong>QR Manager</strong>, a tool for generating, organizing, and managing custom QR
+          codes.</p>
+      </li>
+      <li>
+        <span class="date">2025</span>
+        <p>Developed <strong>Pixel Notepad</strong>, a minimalist cloud-based note-taking app with real-time saving and
+          responsive design.</p>
+      </li>
+      <li>
+        <span class="date">2025</span>
+        <p>Created <strong>Clipboard Logger</strong> for system-level clipboard monitoring and automation (for
+          educational use).</p>
+      </li>
+      <li>
+        <span class="date">2025</span>
+        <p>Attended <strong>TicTechToe Hackathon</strong> at DAIICT and built <strong>Talk-Edge</strong>, a platform for
+          real-time structured discussions.</p>
+      </li>
+      <li>
+        <span class="date">2024</span>
+        <p>Developed a <strong>Memory Matching Game</strong> to improve visual memory using JavaScript and interactive
+          UI.</p>
+      </li>
+      <li>
+        <span class="date">2024</span>
+        <p>Attended a Hackout'24 and built<strong>CropRec</strong> which gives the best suggested crop to grow</p>
+      </li>
+      <li>
+        <span class="date">2024</span>
+        <p>Built a <strong>Ship Routing Optimization System</strong> for a hackathon to minimize maritime travel cost
+          and time.</p>
+      </li>
+      <li>
+        <span class="date">2024</span>
+        <p>Selected for <strong>CVMU Hackathon 2.0</strong> and contributed to a solution which deletes the email
+          contains malicious link</p>
+      </li>
+      <li>
+        <span class="date">2023</span>
+        <p>Attended first hackathon (<strong>Smart India Hackathon</strong>) and developed a <strong>fake social media
+            account detection system</strong>.</p>
+      </li>
+      <li>
+        <span class="date">2022</span>
+        <p>Built a <strong>Bluetooth-controlled car</strong> using Arduino and a smartphone app, exploring early
+          interest in robotics and IoT.</p>
+      </li>
+      <li>
+        <span class="date">2019</span>
+        <p>Designed an <strong>automatic smart dustbin</strong> using Arduino and ultrasonic sensors to promote hygienic
+          waste disposal.</p>
+      </li>
+
+
+    </ul>
+  </section>
+
+
+
+
+  <!-- CONTACT SECTION -->
+
+  <section class="contact section" id="contact">
+    <h2 class="section-title">Contact</h2>
+
+    <form class="contact-form" action="https://formspree.io/f/xgvarvzp" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+      <p id="form-status" class="form-status"></p>
+    </form>
+  </section>
+
+  <p id="form-status" style="margin-top: 15px;"></p>
+
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Thank You so much for visiting, Suggestions are appreciated ! </p>
+
+    <p style="margin-top: 10px; font-weight: bold; color: var(--accent);">
+      Total Visitors: <span id="visit-count">...</span>
+    </p>
+    <div class="footer-socials">
+      <a href="https://github.com/shaiiiikh-github" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/md-shabbir-ahmad-78767b311/" target="_blank">LinkedIn</a>
+
+
+    </div>
+  </footer>
+  <button id="backToTopBtn" aria-label="Go to top">↑</button>
+
+</body>
+
+</html>

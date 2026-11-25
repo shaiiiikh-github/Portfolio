@@ -1706,6 +1706,12 @@ body.light-mode .icon-moon {
   .pulse-dot {
     animation: none;
   }
+  .spotify-widget.playing .eq-col {
+    animation: none !important;
+  }
+  .spotify-widget.playing .spotify-art-wrapper img {
+    animation: none !important;
+  }
   .nav-indicator {
     transition: none !important;
   }

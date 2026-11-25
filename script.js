@@ -619,29 +619,58 @@ document.addEventListener("DOMContentLoaded", () => {
     art: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452"
   };
 
-  function setSpotifyOffline() {
+  let spotifyPollTimer = null;
+  let spotifyAbortController = null;
+  let isSpotifyUpdating = false;
+
+  function renderSpotifyFallback(label = "Not listening right now") {
     if (!spotifyWidget) return;
     spotifyWidget.classList.remove("playing");
-    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Offline • Favorite Track";
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = label;
     if (spotifyTitle) {
       spotifyTitle.textContent = DEFAULT_TRACK.title;
       spotifyTitle.href = DEFAULT_TRACK.url;
+      spotifyTitle.setAttribute("title", DEFAULT_TRACK.title);
     }
     if (spotifyArtist) spotifyArtist.textContent = DEFAULT_TRACK.artist;
-    if (spotifyArt) spotifyArt.src = DEFAULT_TRACK.art;
+    if (spotifyArt) {
+      spotifyArt.src = DEFAULT_TRACK.art;
+      spotifyArt.alt = `${DEFAULT_TRACK.title} by ${DEFAULT_TRACK.artist}`;
+    }
   }
 
   async function updateSpotifyPresence() {
-    if (!spotifyWidget) return;
+    if (!spotifyWidget || isSpotifyUpdating) return;
+    if (document.hidden) return; // Do not fetch when tab is backgrounded
 
     if (!DISCORD_USER_ID || DISCORD_USER_ID === "YOUR_DISCORD_USER_ID") {
-      setSpotifyOffline();
+      renderSpotifyFallback("Not configured");
       return;
     }
 
+    if (spotifyAbortController) {
+      spotifyAbortController.abort();
+    }
+    spotifyAbortController = new AbortController();
+    const timeoutId = setTimeout(() => spotifyAbortController.abort(), 8000); // 8s timeout
+
+    isSpotifyUpdating = true;
     try {
-      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
-      if (!res.ok) throw new Error("Lanyard response not OK");
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`, {
+        signal: spotifyAbortController.signal,
+        headers: { "Accept": "application/json" }
+      });
+      clearTimeout(timeoutId);
+
+      if (res.status === 204) {
+        renderSpotifyFallback("Not listening right now");
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
       const json = await res.json();
 
       if (json.success && json.data && json.data.listening_to_spotify && json.data.spotify) {
@@ -649,21 +678,58 @@ document.addEventListener("DOMContentLoaded", () => {
         spotifyWidget.classList.add("playing");
         if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Listening on Spotify";
         if (spotifyTitle) {
-          spotifyTitle.textContent = spot.song;
-          spotifyTitle.href = `https://open.spotify.com/track/${spot.track_id}`;
+          const songName = spot.song || "Unknown Track";
+          spotifyTitle.textContent = songName;
+          spotifyTitle.href = spot.track_id ? `https://open.spotify.com/track/${spot.track_id}` : "https://open.spotify.com";
+          spotifyTitle.setAttribute("title", songName);
         }
-        if (spotifyArtist) spotifyArtist.textContent = spot.artist;
-        if (spotifyArt && spot.album_art_url) spotifyArt.src = spot.album_art_url;
+        if (spotifyArtist) {
+          spotifyArtist.textContent = spot.artist || "Unknown Artist";
+        }
+        if (spotifyArt && spot.album_art_url) {
+          spotifyArt.src = spot.album_art_url;
+          spotifyArt.alt = spot.song ? `${spot.song} cover art` : "Spotify Album Art";
+        }
       } else {
-        setSpotifyOffline();
+        renderSpotifyFallback("Not listening right now");
       }
     } catch (e) {
-      setSpotifyOffline();
+      clearTimeout(timeoutId);
+      if (e.name !== "AbortError") {
+        renderSpotifyFallback("Not listening right now");
+      }
+    } finally {
+      isSpotifyUpdating = false;
     }
   }
 
-  updateSpotifyPresence();
-  setInterval(updateSpotifyPresence, 12000);
+  function startSpotifyPolling() {
+    stopSpotifyPolling();
+    updateSpotifyPresence();
+    spotifyPollTimer = setInterval(updateSpotifyPresence, 20000); // 20s polling
+  }
+
+  function stopSpotifyPolling() {
+    if (spotifyPollTimer) {
+      clearInterval(spotifyPollTimer);
+      spotifyPollTimer = null;
+    }
+    if (spotifyAbortController) {
+      spotifyAbortController.abort();
+      spotifyAbortController = null;
+    }
+  }
+
+  // Lifecycle listeners: Pause polling while tab is hidden
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopSpotifyPolling();
+    } else {
+      startSpotifyPolling();
+    }
+  });
+
+  startSpotifyPolling();
 
   // ==========================================================================
   // 8. BACK TO TOP BUTTON

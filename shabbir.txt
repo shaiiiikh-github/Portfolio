@@ -1,1 +1,3 @@
 hello shabbir !!
+
+Stop-Process -Name "cloudflared" -Force -ErrorAction SilentlyContinue

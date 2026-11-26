@@ -436,10 +436,11 @@ body.light-mode .icon-moon {
 .spotify-widget {
   width: 100%;
   max-width: 320px;
+  min-height: 58px; /* Guaranteed >= 44px tap target */
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: 10px 14px;
+  padding: 8px 14px;
   border-radius: var(--radius-lg);
   margin-top: var(--space-2xs);
   box-shadow: var(--shadow-sm);
@@ -447,6 +448,8 @@ body.light-mode .icon-moon {
               box-shadow var(--spring-duration-fast) var(--spring-easing),
               border-color var(--spring-duration-fast) var(--spring-easing);
   text-align: left;
+  position: relative;
+  z-index: 5;
 }
 .spotify-widget:hover {
   transform: translateY(-2px);

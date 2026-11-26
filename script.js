@@ -602,8 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================================
   // 8. LIVE SPOTIFY NOW PLAYING STATUS WIDGET (LANYARD INTEGRATION)
   // ==========================================================================
-  // Place your Discord user ID here (e.g. 18-19 digit numerical ID)
-  // Make sure you've joined the Lanyard Discord server (discord.gg/lanyard) once!
+  // NOTE: Discord User ID must remain a STRING (18-19 digits exceeds Number.MAX_SAFE_INTEGER)
   const DISCORD_USER_ID = "649937993968254989";
 
   const spotifyWidget = document.getElementById("spotify-widget");
@@ -612,39 +611,93 @@ document.addEventListener("DOMContentLoaded", () => {
   const spotifyArt = document.getElementById("spotify-art");
   const spotifyStatusLabel = document.getElementById("spotify-status-label");
 
-  const DEFAULT_TRACK = {
-    title: "Starboy",
-    artist: "The Weeknd, Daft Punk",
-    url: "https://open.spotify.com/track/7MXVkk9YM5FZxjluOY2RkV",
-    art: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452"
-  };
-
   let spotifyPollTimer = null;
   let spotifyAbortController = null;
   let isSpotifyUpdating = false;
 
-  function renderSpotifyFallback(label = "Not listening right now") {
+  // Helper to format artists string cleanly (replace ";" or multiple names with ", ")
+  function formatArtists(artistStr) {
+    if (!artistStr) return "Unknown Artist";
+    return artistStr.split(";").map((a) => a.trim()).filter(Boolean).join(", ");
+  }
+
+  // State: Loading
+  function renderSpotifyLoading() {
     if (!spotifyWidget) return;
     spotifyWidget.classList.remove("playing");
-    if (spotifyStatusLabel) spotifyStatusLabel.textContent = label;
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Connecting to Spotify...";
+  }
+
+  // State: Not Listening
+  function renderSpotifyNotListening() {
+    if (!spotifyWidget) return;
+    spotifyWidget.classList.remove("playing");
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Not listening to anything right now";
     if (spotifyTitle) {
-      spotifyTitle.textContent = DEFAULT_TRACK.title;
-      spotifyTitle.href = DEFAULT_TRACK.url;
-      spotifyTitle.setAttribute("title", DEFAULT_TRACK.title);
+      spotifyTitle.textContent = "Not Playing";
+      spotifyTitle.href = "https://open.spotify.com";
+      spotifyTitle.removeAttribute("title");
     }
-    if (spotifyArtist) spotifyArtist.textContent = DEFAULT_TRACK.artist;
+    if (spotifyArtist) {
+      spotifyArtist.textContent = "Spotify Idle";
+    }
     if (spotifyArt) {
-      spotifyArt.src = DEFAULT_TRACK.art;
-      spotifyArt.alt = `${DEFAULT_TRACK.title} by ${DEFAULT_TRACK.artist}`;
+      spotifyArt.src = "assets/favicon.png";
+      spotifyArt.alt = "Spotify Idle";
+    }
+  }
+
+  // State: Error
+  function renderSpotifyError() {
+    if (!spotifyWidget) return;
+    spotifyWidget.classList.remove("playing");
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Spotify status unavailable";
+    if (spotifyTitle) {
+      spotifyTitle.textContent = "Offline";
+      spotifyTitle.href = "https://open.spotify.com";
+      spotifyTitle.removeAttribute("title");
+    }
+    if (spotifyArtist) {
+      spotifyArtist.textContent = "Presence Offline";
+    }
+    if (spotifyArt) {
+      spotifyArt.src = "assets/favicon.png";
+      spotifyArt.alt = "Spotify Offline";
+    }
+  }
+
+  // State: Listening / Now Playing
+  function renderSpotifyPlaying(spot) {
+    if (!spotifyWidget || !spot) return;
+    spotifyWidget.classList.add("playing");
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Listening on Spotify";
+
+    const songTitle = spot.song || "Unknown Track";
+    const artists = formatArtists(spot.artist);
+    const trackUrl = spot.track_id
+      ? `https://open.spotify.com/track/${spot.track_id}`
+      : "https://open.spotify.com";
+
+    if (spotifyTitle) {
+      spotifyTitle.textContent = songTitle;
+      spotifyTitle.href = trackUrl;
+      spotifyTitle.setAttribute("title", songTitle);
+    }
+    if (spotifyArtist) {
+      spotifyArtist.textContent = artists;
+    }
+    if (spotifyArt) {
+      spotifyArt.src = spot.album_art_url || "assets/favicon.png";
+      spotifyArt.alt = `${songTitle} album art`;
     }
   }
 
   async function updateSpotifyPresence() {
     if (!spotifyWidget || isSpotifyUpdating) return;
-    if (document.hidden) return; // Do not fetch when tab is backgrounded
+    if (document.hidden) return; // Do not poll while document.hidden is true
 
-    if (!DISCORD_USER_ID || DISCORD_USER_ID === "YOUR_DISCORD_USER_ID") {
-      renderSpotifyFallback("Not configured");
+    if (typeof DISCORD_USER_ID !== "string" || !DISCORD_USER_ID.trim()) {
+      renderSpotifyError();
       return;
     }
 
@@ -663,40 +716,25 @@ document.addEventListener("DOMContentLoaded", () => {
       clearTimeout(timeoutId);
 
       if (res.status === 204) {
-        renderSpotifyFallback("Not listening right now");
+        renderSpotifyNotListening();
         return;
       }
-
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
       }
 
       const json = await res.json();
 
-      if (json.success && json.data && json.data.listening_to_spotify && json.data.spotify) {
-        const spot = json.data.spotify;
-        spotifyWidget.classList.add("playing");
-        if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Listening on Spotify";
-        if (spotifyTitle) {
-          const songName = spot.song || "Unknown Track";
-          spotifyTitle.textContent = songName;
-          spotifyTitle.href = spot.track_id ? `https://open.spotify.com/track/${spot.track_id}` : "https://open.spotify.com";
-          spotifyTitle.setAttribute("title", songName);
-        }
-        if (spotifyArtist) {
-          spotifyArtist.textContent = spot.artist || "Unknown Artist";
-        }
-        if (spotifyArt && spot.album_art_url) {
-          spotifyArt.src = spot.album_art_url;
-          spotifyArt.alt = spot.song ? `${spot.song} cover art` : "Spotify Album Art";
-        }
+      // Explicit check: only read data.spotify when success === true and listening_to_spotify === true
+      if (json.success && json.data && json.data.listening_to_spotify === true && json.data.spotify) {
+        renderSpotifyPlaying(json.data.spotify);
       } else {
-        renderSpotifyFallback("Not listening right now");
+        renderSpotifyNotListening();
       }
     } catch (e) {
       clearTimeout(timeoutId);
       if (e.name !== "AbortError") {
-        renderSpotifyFallback("Not listening right now");
+        renderSpotifyError();
       }
     } finally {
       isSpotifyUpdating = false;
@@ -706,7 +744,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function startSpotifyPolling() {
     stopSpotifyPolling();
     updateSpotifyPresence();
-    spotifyPollTimer = setInterval(updateSpotifyPresence, 20000); // 20s polling
+    spotifyPollTimer = setInterval(updateSpotifyPresence, 20000); // Poll every 20s
   }
 
   function stopSpotifyPolling() {
@@ -720,7 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Lifecycle listeners: Pause polling while tab is hidden
+  // Lifecycle listeners: single timer, paused while tab is hidden
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopSpotifyPolling();
@@ -729,6 +767,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  renderSpotifyLoading();
   startSpotifyPolling();
 
   // ==========================================================================

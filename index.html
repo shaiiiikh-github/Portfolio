@@ -119,7 +119,7 @@
           </div>
 
           <!-- iOS 18 Dynamic Island Spotify Live Widget -->
-          <div class="spotify-widget glass" id="spotify-widget" aria-label="Spotify Now Playing Status">
+          <div class="spotify-widget glass" id="spotify-widget" aria-label="Spotify Status" role="region" aria-live="polite">
             <div class="spotify-art-wrapper">
               <img id="spotify-art" src="assets/favicon.png" alt="Spotify Album Art" width="48" height="48" loading="lazy" />
               <div class="spotify-badge-icon" aria-hidden="true">
@@ -130,7 +130,7 @@
             </div>
             <div class="spotify-meta">
               <div class="spotify-status-row">
-                <span class="spotify-status-label" id="spotify-status-label">Not listening right now</span>
+                <span class="spotify-status-label" id="spotify-status-label">Not listening to anything right now</span>
                 <div class="spotify-eq" id="spotify-eq" aria-hidden="true">
                   <span class="eq-col"></span>
                   <span class="eq-col"></span>
@@ -138,8 +138,8 @@
                   <span class="eq-col"></span>
                 </div>
               </div>
-              <a id="spotify-title" href="https://open.spotify.com/track/7MXVkk9YM5FZxjluOY2RkV" target="_blank" rel="noopener noreferrer" class="spotify-title" aria-live="polite">Starboy</a>
-              <p id="spotify-artist" class="spotify-artist" aria-live="polite">The Weeknd, Daft Punk</p>
+              <a id="spotify-title" href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-title">Not Playing</a>
+              <p id="spotify-artist" class="spotify-artist">Spotify Offline</p>
             </div>
           </div>
         </div>

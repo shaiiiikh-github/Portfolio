@@ -6,6 +6,8 @@ backup*/
 # Testing & temporary files
 screenshots/
 commit_and_push.py
+run_tunnel.py
+run_tunnel.bat
 __pycache__/
 *.pyc
 

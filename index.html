@@ -118,28 +118,45 @@
             </a>
           </div>
 
-          <!-- iOS 18 Dynamic Island Spotify Live Widget -->
-          <div class="spotify-widget glass" id="spotify-widget" aria-label="Spotify Status" role="region" aria-live="polite">
-            <div class="spotify-art-wrapper">
-              <img id="spotify-art" src="assets/favicon.png" alt="Spotify Album Art" width="48" height="48" loading="lazy" />
-              <div class="spotify-badge-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.495 17.306c-.216.353-.674.465-1.027.25-2.812-1.718-6.35-2.107-10.518-1.155-.403.093-.805-.16-.897-.563-.093-.404.16-.806.563-.898 4.562-1.042 8.487-.597 11.63 1.338.353.216.465.675.25 1.028zm1.464-3.256c-.272.443-.854.582-1.297.31-3.218-1.978-8.125-2.55-11.93-1.394-.5.152-1.03-.133-1.182-.633-.152-.5.133-1.03.633-1.182 4.353-1.32 9.76-.68 13.466 1.598.444.272.583.854.31 1.297zm.126-3.39c-3.858-2.29-10.222-2.502-13.886-1.39-.59.18-1.218-.16-1.398-.75-.18-.59.16-1.218.75-1.398 4.218-1.28 11.25-1.032 15.688 1.6c.53.315.704 1.002.39 1.532-.315.53-1.002.705-1.532.39z"/>
-                </svg>
+          <!-- Spotify Glass Mini Player Widget -->
+          <div class="spotify-widget spotify-mini-player glass" id="spotify-widget" aria-label="Spotify Music Player" role="region" aria-live="polite">
+            <div class="spotify-ambient-glow" id="spotify-ambient-glow" aria-hidden="true"></div>
+            
+            <div class="spotify-player-top">
+              <div class="spotify-status-pill">
+                <span class="spotify-status-indicator" id="spotify-status-indicator" aria-hidden="true"></span>
+                <span class="spotify-status-label" id="spotify-status-label">Connecting to Spotify...</span>
+                <span class="spotify-time-tag" id="spotify-time-tag"></span>
               </div>
-            </div>
-            <div class="spotify-meta">
-              <div class="spotify-status-row">
-                <span class="spotify-status-label" id="spotify-status-label">Not listening to anything right now</span>
+              
+              <div class="spotify-top-right">
                 <div class="spotify-eq" id="spotify-eq" aria-hidden="true">
                   <span class="eq-col"></span>
                   <span class="eq-col"></span>
                   <span class="eq-col"></span>
                   <span class="eq-col"></span>
                 </div>
+                <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-badge-icon" aria-label="Open in Spotify">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.495 17.306c-.216.353-.674.465-1.027.25-2.812-1.718-6.35-2.107-10.518-1.155-.403.093-.805-.16-.897-.563-.093-.404.16-.806.563-.898 4.562-1.042 8.487-.597 11.63 1.338.353.216.465.675.25 1.028zm1.464-3.256c-.272.443-.854.582-1.297.31-3.218-1.978-8.125-2.55-11.93-1.394-.5.152-1.03-.133-1.182-.633-.152-.5.133-1.03.633-1.182 4.353-1.32 9.76-.68 13.466 1.598.444.272.583.854.31 1.297zm.126-3.39c-3.858-2.29-10.222-2.502-13.886-1.39-.59.18-1.218-.16-1.398-.75-.18-.59.16-1.218.75-1.398 4.218-1.28 11.25-1.032 15.688 1.6c.53.315.704 1.002.39 1.532-.315.53-1.002.705-1.532.39z"/>
+                  </svg>
+                </a>
               </div>
-              <a id="spotify-title" href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-title">Not Playing</a>
-              <p id="spotify-artist" class="spotify-artist">Spotify Offline</p>
+            </div>
+
+            <div class="spotify-player-main">
+              <div class="spotify-art-wrapper">
+                <img id="spotify-art" src="assets/favicon.png" alt="Spotify Album Art" width="48" height="48" loading="lazy" />
+                <div class="spotify-art-overlay" aria-hidden="true">
+                  <svg class="spotify-play-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </div>
+              </div>
+              <div class="spotify-meta">
+                <a id="spotify-title" href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-title">Not Playing</a>
+                <p id="spotify-artist" class="spotify-artist">Spotify Offline</p>
+              </div>
             </div>
           </div>
         </div>

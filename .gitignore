@@ -5,6 +5,7 @@ backup*/
 
 # Testing & temporary files
 screenshots/
+scratch/
 commit_and_push.py
 run_tunnel.py
 run_tunnel.bat

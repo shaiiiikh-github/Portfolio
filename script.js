@@ -600,83 +600,139 @@ document.addEventListener("DOMContentLoaded", () => {
   updateVisitorCount();
 
   // ==========================================================================
-  // 8. LIVE SPOTIFY NOW PLAYING STATUS WIDGET (LANYARD INTEGRATION)
+  // 8. LIVE SPOTIFY NOW PLAYING STATUS WIDGET (HYBRID LAST.FM + LANYARD ENGINE)
   // ==========================================================================
-  // NOTE: Discord User ID must remain a STRING (18-19 digits exceeds Number.MAX_SAFE_INTEGER)
-  const DISCORD_USER_ID = "649937993968254989";
+  const SPOTIFY_CONFIG = {
+    // Discord User ID (must remain a STRING because 18-19 digits exceeds Number.MAX_SAFE_INTEGER)
+    discordUserId: "649937993968254989",
+    // User's Last.fm username for global last-played tracking across all devices
+    lastFmUsername: "Shabbir_1305",
+    // 32-character Last.fm API Key (from https://www.last.fm/api/account/create)
+    lastFmApiKey: "2d09ade1ee095758378aef6ac5dc42e8",
+    cacheKey: "portfolio_spotify_last_played_v2",
+    pollIntervalMs: 20000
+  };
 
   const spotifyWidget = document.getElementById("spotify-widget");
   const spotifyTitle = document.getElementById("spotify-title");
   const spotifyArtist = document.getElementById("spotify-artist");
   const spotifyArt = document.getElementById("spotify-art");
   const spotifyStatusLabel = document.getElementById("spotify-status-label");
+  const spotifyTimeTag = document.getElementById("spotify-time-tag");
+
+  const CURATED_DEFAULT = {
+    song: "Starboy",
+    artist: "The Weeknd, Daft Punk",
+    album_art_url: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452",
+    track_id: "7MXVkk9YM5FZxjluOY2RkV",
+    url: "https://open.spotify.com/track/7MXVkk9YM5FZxjluOY2RkV"
+  };
 
   let spotifyPollTimer = null;
   let spotifyAbortController = null;
   let isSpotifyUpdating = false;
 
-  // Helper to format artists string cleanly (replace ";" or multiple names with ", ")
+  // Helper: Format multiple artists separated by ";" into clean comma separation
   function formatArtists(artistStr) {
     if (!artistStr) return "Unknown Artist";
     return artistStr.split(";").map((a) => a.trim()).filter(Boolean).join(", ");
   }
 
+  // Helper: Compute friendly relative time ("• 12m ago", "• 2h ago", "• Yesterday")
+  function formatRelativeTime(timestamp) {
+    if (!timestamp) return "";
+    const now = Date.now();
+    const diffSec = Math.max(0, Math.floor((now - timestamp) / 1000));
+    if (diffSec < 60) return "• Just now";
+    const diffMin = Math.floor(diffSec / 60);
+    if (diffMin < 60) return `• ${diffMin}m ago`;
+    const diffHours = Math.floor(diffMin / 60);
+    if (diffHours < 24) return `• ${diffHours}h ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffDays === 1) return "• Yesterday";
+    if (diffDays < 30) return `• ${diffDays}d ago`;
+    return "• Recently";
+  }
+
+  // Cache persistence helpers
+  function getCachedTrack() {
+    try {
+      const data = localStorage.getItem(SPOTIFY_CONFIG.cacheKey);
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function setCachedTrack(trackData) {
+    try {
+      localStorage.setItem(SPOTIFY_CONFIG.cacheKey, JSON.stringify(trackData));
+    } catch {
+      // Safe fallback for quota or private mode restrictions
+    }
+  }
+
   // State: Loading
   function renderSpotifyLoading() {
     if (!spotifyWidget) return;
-    spotifyWidget.classList.remove("playing");
+    spotifyWidget.classList.remove("playing", "recent");
     if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Connecting to Spotify...";
+    if (spotifyTimeTag) spotifyTimeTag.textContent = "";
   }
 
-  // State: Not Listening
-  function renderSpotifyNotListening() {
-    if (!spotifyWidget) return;
-    spotifyWidget.classList.remove("playing");
-    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Not listening to anything right now";
-    if (spotifyTitle) {
-      spotifyTitle.textContent = "Not Playing";
-      spotifyTitle.href = "https://open.spotify.com";
-      spotifyTitle.removeAttribute("title");
-    }
-    if (spotifyArtist) {
-      spotifyArtist.textContent = "Spotify Idle";
-    }
-    if (spotifyArt) {
-      spotifyArt.src = "assets/favicon.png";
-      spotifyArt.alt = "Spotify Idle";
-    }
-  }
-
-  // State: Error
-  function renderSpotifyError() {
-    if (!spotifyWidget) return;
-    spotifyWidget.classList.remove("playing");
-    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Spotify status unavailable";
-    if (spotifyTitle) {
-      spotifyTitle.textContent = "Offline";
-      spotifyTitle.href = "https://open.spotify.com";
-      spotifyTitle.removeAttribute("title");
-    }
-    if (spotifyArtist) {
-      spotifyArtist.textContent = "Presence Offline";
-    }
-    if (spotifyArt) {
-      spotifyArt.src = "assets/favicon.png";
-      spotifyArt.alt = "Spotify Offline";
-    }
-  }
-
-  // State: Listening / Now Playing
+  // State: Listening / Now Playing (Live)
   function renderSpotifyPlaying(spot) {
     if (!spotifyWidget || !spot) return;
+    spotifyWidget.classList.remove("recent");
     spotifyWidget.classList.add("playing");
+
     if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Listening on Spotify";
+    if (spotifyTimeTag) spotifyTimeTag.textContent = "";
 
     const songTitle = spot.song || "Unknown Track";
     const artists = formatArtists(spot.artist);
     const trackUrl = spot.track_id
       ? `https://open.spotify.com/track/${spot.track_id}`
-      : "https://open.spotify.com";
+      : (spot.url || `https://open.spotify.com/search/${encodeURIComponent(songTitle + " " + artists)}`);
+
+    if (spotifyTitle) {
+      spotifyTitle.textContent = songTitle;
+      spotifyTitle.href = trackUrl;
+      spotifyTitle.setAttribute("title", songTitle);
+    }
+    if (spotifyArtist) {
+      spotifyArtist.textContent = artists;
+    }
+    if (spotifyArt) {
+      spotifyArt.src = spot.album_art_url || "assets/favicon.png";
+      spotifyArt.alt = `${songTitle} album art`;
+    }
+
+    // Persist in localStorage so "Last Played" is preserved when playback stops
+    setCachedTrack({
+      song: songTitle,
+      artist: artists,
+      album_art_url: spot.album_art_url || "",
+      track_id: spot.track_id || "",
+      url: trackUrl,
+      timestamp: Date.now()
+    });
+  }
+
+  // State: Recently Played (Historical / Last Seen)
+  function renderSpotifyRecent(spot) {
+    if (!spotifyWidget || !spot) return;
+    spotifyWidget.classList.remove("playing");
+    spotifyWidget.classList.add("recent");
+
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Recently Played";
+    if (spotifyTimeTag) spotifyTimeTag.textContent = formatRelativeTime(spot.timestamp);
+
+    const songTitle = spot.song || "Unknown Track";
+    const artists = formatArtists(spot.artist);
+    const trackUrl = spot.track_id
+      ? `https://open.spotify.com/track/${spot.track_id}`
+      : (spot.url || `https://open.spotify.com/search/${encodeURIComponent(songTitle + " " + artists)}`);
 
     if (spotifyTitle) {
       spotifyTitle.textContent = songTitle;
@@ -692,44 +748,140 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function updateSpotifyPresence() {
-    if (!spotifyWidget || isSpotifyUpdating) return;
-    if (document.hidden) return; // Do not poll while document.hidden is true
+  // State: Error / Offline
+  function renderSpotifyError() {
+    if (!spotifyWidget) return;
 
-    if (typeof DISCORD_USER_ID !== "string" || !DISCORD_USER_ID.trim()) {
-      renderSpotifyError();
+    // Gracefully fallback to cached track if available
+    const cached = getCachedTrack();
+    if (cached) {
+      renderSpotifyRecent(cached);
       return;
     }
+
+    spotifyWidget.classList.remove("playing", "recent");
+    if (spotifyStatusLabel) spotifyStatusLabel.textContent = "Spotify Offline";
+    if (spotifyTimeTag) spotifyTimeTag.textContent = "";
+
+    if (spotifyTitle) {
+      spotifyTitle.textContent = "Offline";
+      spotifyTitle.href = "https://open.spotify.com";
+      spotifyTitle.removeAttribute("title");
+    }
+    if (spotifyArtist) {
+      spotifyArtist.textContent = "Presence Offline";
+    }
+    if (spotifyArt) {
+      spotifyArt.src = "assets/favicon.png";
+      spotifyArt.alt = "Spotify Offline";
+    }
+  }
+
+  // Fetch from Last.fm Scrobbler API (Tracks exact last played track across all devices)
+  async function fetchFromLastFm(signal) {
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(
+      SPOTIFY_CONFIG.lastFmUsername
+    )}&api_key=${SPOTIFY_CONFIG.lastFmApiKey}&format=json&limit=1`;
+
+    const res = await fetch(url, { signal, headers: { Accept: "application/json" } });
+    if (!res.ok) throw new Error(`Last.fm HTTP ${res.status}`);
+    const json = await res.json();
+
+    const track = json?.recenttracks?.track?.[0] || json?.recenttracks?.track;
+    if (!track) return null;
+
+    const isNowPlaying = track["@attr"]?.nowplaying === "true";
+    const songName = track.name || "Unknown Track";
+    const artistName = track.artist?.["#text"] || track.artist?.name || "Unknown Artist";
+    const artImages = track.image || [];
+    const albumArt =
+      artImages.find((img) => img.size === "extralarge")?.["#text"] ||
+      artImages.find((img) => img.size === "large")?.["#text"] ||
+      artImages[0]?.["#text"] ||
+      "";
+    const timestamp = track.date?.uts ? parseInt(track.date.uts, 10) * 1000 : null;
+
+    return {
+      isNowPlaying,
+      song: songName,
+      artist: artistName,
+      album_art_url: albumArt,
+      url: `https://open.spotify.com/search/${encodeURIComponent(songName + " " + artistName)}`,
+      timestamp
+    };
+  }
+
+  // Fetch from Lanyard Discord Presence Gateway
+  async function fetchFromLanyard(signal) {
+    if (typeof SPOTIFY_CONFIG.discordUserId !== "string" || !SPOTIFY_CONFIG.discordUserId.trim()) {
+      return null;
+    }
+    const res = await fetch(`https://api.lanyard.rest/v1/users/${SPOTIFY_CONFIG.discordUserId}`, {
+      signal,
+      headers: { Accept: "application/json" }
+    });
+    if (res.status === 204) return { isNowPlaying: false };
+    if (!res.ok) throw new Error(`Lanyard HTTP ${res.status}`);
+    const json = await res.json();
+
+    if (json.success && json.data && json.data.listening_to_spotify === true && json.data.spotify) {
+      return {
+        isNowPlaying: true,
+        ...json.data.spotify
+      };
+    }
+    return { isNowPlaying: false };
+  }
+
+  async function updateSpotifyPresence() {
+    if (!spotifyWidget || isSpotifyUpdating) return;
+    if (document.hidden) return; // Pause polling when tab is hidden
 
     if (spotifyAbortController) {
       spotifyAbortController.abort();
     }
     spotifyAbortController = new AbortController();
-    const timeoutId = setTimeout(() => spotifyAbortController.abort(), 8000); // 8s timeout
+    const timeoutId = setTimeout(() => spotifyAbortController.abort(), 8000);
 
     isSpotifyUpdating = true;
     try {
-      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`, {
-        signal: spotifyAbortController.signal,
-        headers: { "Accept": "application/json" }
-      });
+      // 1. Try Last.fm if username and API key are configured
+      if (
+        SPOTIFY_CONFIG.lastFmUsername &&
+        SPOTIFY_CONFIG.lastFmUsername.trim() &&
+        SPOTIFY_CONFIG.lastFmApiKey &&
+        SPOTIFY_CONFIG.lastFmApiKey.trim()
+      ) {
+        try {
+          const lastFmData = await fetchFromLastFm(spotifyAbortController.signal);
+          if (lastFmData) {
+            clearTimeout(timeoutId);
+            if (lastFmData.isNowPlaying) {
+              renderSpotifyPlaying(lastFmData);
+            } else {
+              renderSpotifyRecent(lastFmData);
+            }
+            return;
+          }
+        } catch (lastFmErr) {
+          console.warn("Last.fm fetch error, falling back to Lanyard:", lastFmErr);
+        }
+      }
+
+      // 2. Fallback to Lanyard (Discord presence)
+      const lanyardData = await fetchFromLanyard(spotifyAbortController.signal);
       clearTimeout(timeoutId);
 
-      if (res.status === 204) {
-        renderSpotifyNotListening();
-        return;
-      }
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-
-      const json = await res.json();
-
-      // Explicit check: only read data.spotify when success === true and listening_to_spotify === true
-      if (json.success && json.data && json.data.listening_to_spotify === true && json.data.spotify) {
-        renderSpotifyPlaying(json.data.spotify);
+      if (lanyardData && lanyardData.isNowPlaying) {
+        renderSpotifyPlaying(lanyardData);
       } else {
-        renderSpotifyNotListening();
+        // Fall back to cached last played track
+        const cached = getCachedTrack();
+        if (cached) {
+          renderSpotifyRecent(cached);
+        } else {
+          renderSpotifyRecent(CURATED_DEFAULT);
+        }
       }
     } catch (e) {
       clearTimeout(timeoutId);
@@ -744,7 +896,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function startSpotifyPolling() {
     stopSpotifyPolling();
     updateSpotifyPresence();
-    spotifyPollTimer = setInterval(updateSpotifyPresence, 20000); // Poll every 20s
+    spotifyPollTimer = setInterval(updateSpotifyPresence, SPOTIFY_CONFIG.pollIntervalMs);
   }
 
   function stopSpotifyPolling() {

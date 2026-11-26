@@ -143,19 +143,23 @@ The site features dynamic theme switching between **iOS Dark Mode** (default) an
 * Visitor Counter: Queries live visitor badge endpoint (`https://api.visitorbadge.io/api/visitors?path=shaiiiikh-github.portfolio`). Uses a single, transparent fetch without session gating or hardcoded baselines. Falls back cleanly to "Unavailable" on network/adblock failure.
 * Back-to-Top Button (`#backToTopBtn`): Floating circular glass button located above the bottom tab bar on mobile (`bottom: calc(env(safe-area-inset-bottom) + 74px)`) and bottom-right on desktop. Appears after scrolling 300px.
 
-### 4.8 Spotify Now Playing Dynamic Island Widget
-* Markup: `#spotify-widget` located in the hero profile card with `#spotify-art`, `#spotify-status-label`, `#spotify-title`, `#spotify-artist`, and animated sound equalizer bars (`#spotify-eq`). Configured with `role="region"` and `aria-live="polite"`.
-* Integration: Driven by Lanyard REST API (`https://api.lanyard.rest/v1/users/{DISCORD_USER_ID}`). Discord User ID is strictly treated as a **String** everywhere because 18-19 digit snowflakes exceed `Number.MAX_SAFE_INTEGER`.
+### 4.8 Spotify Glass Mini Player (Hybrid Last.fm + Lanyard Engine)
+* Markup: `#spotify-widget` located in the hero card with `#spotify-art`, `#spotify-status-label`, `#spotify-time-tag`, `#spotify-title`, `#spotify-artist`, `#spotify-ambient-glow`, and animated sound equalizer bars (`#spotify-eq`). Configured with `role="region"` and `aria-live="polite"`.
+* Visual Style: Modern frosted glass mini player with dynamic ambient backdrop reflection, live animated equalizer, status indicator dot (pulsing green for live, amber for recent), and relative time indicator (`• 15m ago`, `• 2h ago`, `• Yesterday`).
+* Hybrid Dual Engine:
+  1. **Primary Global Scrobbler (Last.fm):** When `SPOTIFY_CONFIG.lastFmUsername` is configured, it connects to Last.fm public API (`user.getrecenttracks`). This captures exact listening history and exact playback timestamps across all devices (phone, desktop, web, console, car) even if Discord is completely offline or closed.
+  2. **Real-Time Presence (Lanyard Gateway):** Reads Discord Spotify Rich Presence via `https://api.lanyard.rest/v1/users/{discordUserId}`. String type is strictly preserved for Discord snowflakes (`typeof discordUserId === "string"`).
+  3. **Client Cache Persistence (`localStorage`):** Whenever a track is played, it is cached in `localStorage` under `portfolio_spotify_last_played_v2` with `Date.now()`. When music stops or the browser is reloaded, the widget displays the actual last played song with a dynamic relative time badge.
 * State Machine:
   - **Loading:** Displays "Connecting to Spotify..." on initial mount.
-  - **Listening:** Activated strictly when `data.listening_to_spotify === true` and `data.spotify` is populated. Formats artists joined by semicolon into clean commas (`The Weeknd, Daft Punk`), sets song title with `textContent`, and links out to `https://open.spotify.com/track/<track_id>` with `target="_blank" rel="noopener noreferrer"`.
-  - **Not Listening:** Cleanly displays "Not listening to anything right now" with calm fallback labels.
-  - **Error:** In case of network errors or missing user, shows "Spotify status unavailable".
+  - **Now Playing / Live:** Displays glowing green indicator, animated 4-bar equalizer, song title, comma-separated artist list (`formatArtists`), and album cover.
+  - **Recently Played:** Displays "Recently Played" with computed relative time tag (`• 12m ago`, `• Yesterday`), song title, artist, and cover art.
+  - **Error / Offline:** Gracefully falls back to cached track or clean offline state without breaking UI or throwing unhandled exceptions.
 * Lifecycle & Resilience:
   - Polling interval: 20 seconds using a single timer.
   - Lifecycle management: Automatically pauses polling via `document.addEventListener("visibilitychange")` when the tab is hidden or backgrounded, eliminating unnecessary background network traffic.
   - AbortController: 8-second request timeout guards against slow networks or hanging requests.
-  - Accessibility & Touch: Guarantees a minimum touch target height >= 44px (`min-height: 58px`). Disables vinyl spinning and equalizer animation when `prefers-reduced-motion` is active. Zero overlap with floating tab bar, toast, or back-to-top button.
+  - Accessibility & Touch: Guarantees a minimum touch target height >= 44px (`min-height: 80px`). Disables animation when `prefers-reduced-motion` is active. Zero overlap with floating tab bar, toast, or back-to-top button.
 
 ---
 

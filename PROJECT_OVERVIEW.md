@@ -35,7 +35,7 @@ Portfolio/
 │   ├── clipboard_logger.webp  # Clipboard Logger preview (< 16 KB WebP, 800x533)
 │   ├── game.webp / .png       # Memory Matching Game preview (< 7 KB WebP, 800x469)
 │   ├── Fake.webp / .png       # Fake Instagram Account Detection preview (< 15 KB WebP, 800x535)
-│   ├── SmartAgro.webp / .png  # Smart Agro-Solar System preview (< 19 KB WebP, 800x412)
+│   ├── SmartAgro.webp / .png  # Smart-Agro deployed web platform preview (800x450 WebP/PNG)
 │   ├── Intellu.webp / .png    # IntelliHelp AI preview (< 16 KB WebP, 800x390)
 │   ├── suraksha.webp / .png   # Suraksha Yatra preview (< 14 KB WebP, 800x390)
 │   ├── github.png             # Social icon (GitHub)
@@ -122,7 +122,7 @@ The site features dynamic theme switching between **iOS Dark Mode** (default) an
   4. *Clipboard Logger* (Tools, Python Automation) &rarr; GitHub
   5. *Memory Matching Game* (Web Game, Vanilla JS) &rarr; Render Live App
   6. *Fake Instagram Account Detection* (ML & AI, KNN, Classification) &rarr; GitHub
-  7. *Smart Agro-Solar System* (IoT & Hardware, Solar Optimization) &rarr; GitHub
+  7. *Smart-Agro — Autonomous Precision Agriculture & Clean Energy* (IoT & AI, Solar Optimization, Clean Energy) &rarr; Vercel Live App (https://smart-agro-v2.vercel.app/) &amp; GitHub
   8. *IntelliHelp AI* (AI & NLP, Document QA) &rarr; GitHub
   9. *Suraksha Yatra* (Web & IoT, Geolocation & Safety) &rarr; GitHub
 
@@ -160,6 +160,25 @@ The site features dynamic theme switching between **iOS Dark Mode** (default) an
   - Lifecycle management: Automatically pauses polling via `document.addEventListener("visibilitychange")` when the tab is hidden or backgrounded, eliminating unnecessary background network traffic.
   - AbortController: 8-second request timeout guards against slow networks or hanging requests.
   - Accessibility & Touch: Guarantees a minimum touch target height >= 44px (`min-height: 80px`). Disables animation when `prefers-reduced-motion` is active. Zero overlap with floating tab bar, toast, or back-to-top button.
+
+### 4.9 GitHub Activity (Contribution Graph)
+* **Markup & IDs:** `<section id="github-activity">` positioned immediately after `#projects` and before `#timeline`. Contains `#github-card`, `#gh-summary-title`, `#gh-sr-summary`, `#gh-skeleton`, `#gh-scroll-container`, `#gh-months-row`, `#gh-grid`, `#gh-card-footer`, `#gh-fallback-container`, and floating `#gh-tooltip`.
+* **Data Source:** Primary endpoint `https://github-contributions-api.jogruber.de/v4/shaiiiikh-github?y=last` configured via `const GITHUB_USER = "shaiiiikh-github"`. Real payload shape: `{ total: { lastYear: number }, contributions: Array<{ date: string, count: number, level: number }> }`.
+* **Caching & Resilience:**
+  - Cache key: `portfolio_github_graph_v1` in `localStorage` with timestamp and 60-minute TTL.
+  - Initial load renders cache instantly, then refreshes in background if stale.
+  - 8-second `AbortController` timeout prevents hanging requests.
+  - Fallback: If fetch fails with no cache, renders SVG fallback chart `https://ghchart.rshah.org/shaiiiikh-github`, with secondary onerror fallback to calm text message + profile link. Never outputs raw errors, NaN, or undefined.
+* **Graph Architecture:**
+  - Native CSS Grid with 7 rows (Sun to Sat) and ~53 columns (`grid-auto-flow: column`).
+  - First-day weekday padding using `.gh-spacer` elements so grid rows align with real calendar weekdays.
+  - Month labels dynamically placed on starting column of each month.
+  - Single delegated listener on `#gh-grid` for hover and touch taps with viewport edge clamping.
+  - Visually hidden sentence (`#gh-sr-summary`) announces total contributions and busiest day for screen readers (zero tab-stop pollution).
+  - Mobile overflow: `overflow-x: auto` container with hidden scrollbar, edge fade mask, auto-scrolled to most recent week on load without page-level sideways scroll.
+  - Animation: Column-by-column reveal on scroll via `IntersectionObserver` adding `.revealed`; completely disabled under `@media (prefers-reduced-motion: reduce)`.
+  - Color Tokens: Dark mode levels (`--gh-level-0` through `--gh-level-4`) with glass tint on black; Light mode levels matching GitHub standard palette. High-contrast border enhancements under `@media (prefers-contrast: more)`.
+* **Scroll-Spy Mapping:** `#github-activity` maps directly to `"projects"` in `setActiveNav()` so "Projects" remains highlighted in the desktop navbar and mobile tab bar, and "Timeline" activates only when `#timeline` is reached.
 
 ---
 

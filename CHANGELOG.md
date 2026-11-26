@@ -112,3 +112,13 @@ All original images were preserved in `/assets/original/`. Images were cropped, 
 5. **Accessibility:**
    - Disables transitions when `prefers-reduced-motion` is active.
    - Binds hover interactions only on fine pointer devices (`(hover: hover) and (pointer: fine)`).
+
+---
+
+## 4. GitHub Activity Contribution Graph
+- Added native CSS Grid contribution graph for user `shaiiiikh-github` displaying 12-month activity.
+- Integrated primary API `https://github-contributions-api.jogruber.de/v4/shaiiiikh-github?y=last` with 60-min `localStorage` cache (`portfolio_github_graph_v1`).
+- Added robust fallback cascade: cached data -> live API -> SVG fallback chart (`https://ghchart.rshah.org/shaiiiikh-github`) -> calm error message.
+- Implemented single delegated tooltip on the grid with boundary clamping, weekday padding, month labels, and screen reader announcements.
+- Updated scroll-spy to map `#github-activity` to `projects` without adding extra navigation items.
+- Styled in Liquid Glass design system with dark and light themes, reduced motion and high contrast support.

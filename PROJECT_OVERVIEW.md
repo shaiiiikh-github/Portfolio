@@ -144,14 +144,18 @@ The site features dynamic theme switching between **iOS Dark Mode** (default) an
 * Back-to-Top Button (`#backToTopBtn`): Floating circular glass button located above the bottom tab bar on mobile (`bottom: calc(env(safe-area-inset-bottom) + 74px)`) and bottom-right on desktop. Appears after scrolling 300px.
 
 ### 4.8 Spotify Now Playing Dynamic Island Widget
-* Markup: `#spotify-widget` located in the hero profile card with `#spotify-art`, `#spotify-status-label`, `#spotify-title`, `#spotify-artist`, and animated sound equalizer bars (`#spotify-eq`).
-* Integration: Driven by Lanyard REST API (`https://api.lanyard.rest/v1/users/{DISCORD_USER_ID}`). Requires zero server credentials, API keys, client secrets, or refresh tokens in frontend code.
+* Markup: `#spotify-widget` located in the hero profile card with `#spotify-art`, `#spotify-status-label`, `#spotify-title`, `#spotify-artist`, and animated sound equalizer bars (`#spotify-eq`). Configured with `role="region"` and `aria-live="polite"`.
+* Integration: Driven by Lanyard REST API (`https://api.lanyard.rest/v1/users/{DISCORD_USER_ID}`). Discord User ID is strictly treated as a **String** everywhere because 18-19 digit snowflakes exceed `Number.MAX_SAFE_INTEGER`.
+* State Machine:
+  - **Loading:** Displays "Connecting to Spotify..." on initial mount.
+  - **Listening:** Activated strictly when `data.listening_to_spotify === true` and `data.spotify` is populated. Formats artists joined by semicolon into clean commas (`The Weeknd, Daft Punk`), sets song title with `textContent`, and links out to `https://open.spotify.com/track/<track_id>` with `target="_blank" rel="noopener noreferrer"`.
+  - **Not Listening:** Cleanly displays "Not listening to anything right now" with calm fallback labels.
+  - **Error:** In case of network errors or missing user, shows "Spotify status unavailable".
 * Lifecycle & Resilience:
-  - Polling interval: 20 seconds.
+  - Polling interval: 20 seconds using a single timer.
   - Lifecycle management: Automatically pauses polling via `document.addEventListener("visibilitychange")` when the tab is hidden or backgrounded, eliminating unnecessary background network traffic.
   - AbortController: 8-second request timeout guards against slow networks or hanging requests.
-  - Fallback state: When offline or paused, displays a calm "Not listening right now" fallback with track title, artist, and album art, avoiding blank UI states or raw error messages.
-  - Accessibility: Respects `prefers-reduced-motion` by disabling equalizer bouncing animations and vinyl spin, and supports screen readers with `aria-live="polite"`.
+  - Accessibility & Touch: Guarantees a minimum touch target height >= 44px (`min-height: 58px`). Disables vinyl spinning and equalizer animation when `prefers-reduced-motion` is active. Zero overlap with floating tab bar, toast, or back-to-top button.
 
 ---
 

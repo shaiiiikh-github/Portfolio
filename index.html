@@ -468,30 +468,32 @@
           </div>
         </article>
 
-        <!-- 7. Smart Agro-Solar System -->
-        <article class="project-card glass" data-category="iot ml" tabindex="0" role="button" aria-haspopup="dialog"
-          data-title="Smart Agro-Solar System"
+        <!-- 7. Smart-Agro — Autonomous Precision Agriculture & Clean Energy -->
+        <article class="project-card glass" data-category="web iot ml" tabindex="0" role="button" aria-haspopup="dialog"
+          data-title="Smart-Agro — Autonomous Precision Agriculture &amp; Clean Energy"
           data-img-webp="assets/SmartAgro.webp"
           data-img-fallback="assets/SmartAgro.png"
-          data-tags="IoT,Hardware,Solar Optimization,Machine Learning"
-          data-link="https://github.com/Sahil-006/Smart-Agro"
-          data-btn-text="View Project">
+          data-tags="IoT Sensors,Solar Optimization,Machine Learning,Clean Energy,Cloud Platform"
+          data-link="https://smart-agro-v2.vercel.app/"
+          data-github="https://github.com/Sahil-006/Smart-Agro"
+          data-btn-text="Live Demo">
           <div class="project-image-wrapper">
             <picture>
               <source srcset="assets/SmartAgro.webp" type="image/webp" />
-              <img src="assets/SmartAgro.png" alt="Smart Agro-Solar System preview" class="project-image" loading="lazy" width="800" height="412" />
+              <img src="assets/SmartAgro.png" alt="Smart-Agro Autonomous Precision Agriculture &amp; Clean Energy preview" class="project-image" loading="lazy" width="800" height="450" />
             </picture>
             <div class="card-gradient-overlay"></div>
           </div>
           <div class="project-content">
             <div class="project-chips">
-              <span class="card-chip">IoT</span>
-              <span class="card-chip">Solar Energy</span>
+              <span class="card-chip">IoT &amp; AI</span>
+              <span class="card-chip">Clean Energy</span>
+              <span class="card-chip">Live App</span>
             </div>
-            <h3 class="project-title">Smart Agro-Solar System</h3>
-            <p class="project-desc">Developed a Smart Agro-Solar System using IoT sensors and machine learning models. The system monitors soil moisture, temperature, humidity, and pH levels in real time, provides crop recommendations, and optimizes solar energy usage through a cloud-based dashboard.</p>
+            <h3 class="project-title">Smart-Agro — Autonomous Precision Agriculture &amp; Clean Energy</h3>
+            <p class="project-desc">Autonomous precision agriculture &amp; clean energy cloud platform powered by IoT &amp; AI. Features real-time soil moisture monitoring, crop health analytics, automated irrigation alerts, and dual-axis solar panel tracking with energy yield optimization.</p>
             <div class="card-footer">
-              <a href="https://github.com/Sahil-006/Smart-Agro" class="view-btn" target="_blank" rel="noopener noreferrer">View Project &rarr;</a>
+              <a href="https://smart-agro-v2.vercel.app/" class="view-btn" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
             </div>
           </div>
         </article>
@@ -552,6 +554,68 @@
           </div>
         </article>
 
+      </div>
+    </section>
+
+    <!-- GITHUB ACTIVITY SECTION -->
+    <section class="section github-section" id="github-activity" aria-labelledby="github-activity-title">
+      <div class="section-header">
+        <span class="section-caption">Open Source</span>
+        <h2 class="section-title" id="github-activity-title">GitHub Activity</h2>
+      </div>
+
+      <div class="github-card glass" id="github-card">
+        <div class="github-card-header">
+          <div class="github-card-title-group">
+            <svg class="github-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <p class="gh-summary-title" id="gh-summary-title">Loading GitHub activity...</p>
+          </div>
+          <a href="https://github.com/shaiiiikh-github" target="_blank" rel="noopener noreferrer" class="gh-profile-btn" aria-label="View shaiiiikh-github full profile on GitHub">
+            View full profile &rarr;
+          </a>
+        </div>
+
+        <p class="visually-hidden" id="gh-sr-summary" aria-live="polite"></p>
+
+        <!-- Loading Skeleton -->
+        <div class="gh-skeleton" id="gh-skeleton" aria-hidden="true"></div>
+
+        <!-- Graph Scroll Area -->
+        <div class="gh-scroll-container" id="gh-scroll-container" style="display: none;">
+          <div class="gh-graph-layout" id="gh-graph-layout">
+            <div class="gh-weekdays-col" aria-hidden="true">
+              <span></span>
+              <span>Mon</span>
+              <span></span>
+              <span>Wed</span>
+              <span></span>
+              <span>Fri</span>
+              <span></span>
+            </div>
+            <div class="gh-main-area">
+              <div class="gh-months-row" id="gh-months-row" aria-hidden="true"></div>
+              <div class="gh-grid" id="gh-grid" role="region" aria-label="GitHub Contribution Graph"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fallback Container -->
+        <div class="gh-fallback-container" id="gh-fallback-container" style="display: none;"></div>
+
+        <!-- Footer: Legend -->
+        <div class="gh-card-footer" id="gh-card-footer" style="display: none;">
+          <div class="gh-legend" aria-hidden="true">
+            <span class="gh-legend-label">Less</span>
+            <span class="gh-cell level-0"></span>
+            <span class="gh-cell level-1"></span>
+            <span class="gh-cell level-2"></span>
+            <span class="gh-cell level-3"></span>
+            <span class="gh-cell level-4"></span>
+            <span class="gh-legend-label">More</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -823,6 +887,7 @@
           <p id="sheet-desc" class="sheet-desc"></p>
           <div class="sheet-actions">
             <a id="sheet-action-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary sheet-btn">Open Project &rarr;</a>
+            <a id="sheet-github-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline sheet-btn" style="display: none;">View Code &rarr;</a>
           </div>
         </div>
       </div>
@@ -843,6 +908,9 @@
     </div>
     <span class="toast-message" id="toast-message">Message sent successfully!</span>
   </div>
+
+  <!-- FLOATING GITHUB TOOLTIP -->
+  <div id="gh-tooltip" class="gh-tooltip" role="tooltip" aria-hidden="true"></div>
 
 </body>
 </html>

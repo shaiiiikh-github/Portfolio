@@ -220,6 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sheetImg = document.getElementById("sheet-img");
   const sheetSourceWebp = document.getElementById("sheet-source-webp");
   const sheetActionLink = document.getElementById("sheet-action-link");
+  const sheetGithubLink = document.getElementById("sheet-github-link");
   let lastActiveElement = null;
 
   function openSheet(card) {
@@ -231,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const imgFallback = card.dataset.imgFallback || "";
     const tags = (card.dataset.tags || "").split(",").filter(Boolean);
     const link = card.dataset.link || "#";
+    const githubLink = card.dataset.github || "";
     const btnText = card.dataset.btnText || "Open Project";
     const desc = card.querySelector(".project-desc")?.textContent || "";
 
@@ -244,6 +246,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sheetActionLink) {
       sheetActionLink.href = link;
       sheetActionLink.textContent = `${btnText} →`;
+    }
+    if (sheetGithubLink) {
+      if (githubLink) {
+        sheetGithubLink.href = githubLink;
+        sheetGithubLink.style.display = "inline-flex";
+      } else {
+        sheetGithubLink.style.display = "none";
+      }
     }
 
     if (sheetTags) {
@@ -422,6 +432,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setActiveNav(sectionId) {
     if (!sectionId) return;
+    // Map github-activity to "projects" so Projects remains active
+    if (sectionId === "github-activity") {
+      sectionId = "projects";
+    }
     activeSectionId = sectionId;
 
     desktopNavItems.forEach((item) => {
@@ -961,5 +975,439 @@ document.addEventListener("DOMContentLoaded", () => {
     profileCard.addEventListener("mouseleave", () => {
       profileCard.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
     });
+  }
+
+  // ==========================================================================
+  // 10. GITHUB ACTIVITY CONTRIBUTION GRAPH
+  // ==========================================================================
+  const GITHUB_USER = "shaiiiikh-github";
+  const GITHUB_CACHE_KEY = "portfolio_github_graph_v1";
+  const GITHUB_CACHE_TTL_MS = 60 * 60 * 1000; // 60 minutes
+  const GITHUB_API_URL = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USER}?y=last`;
+  const GITHUB_FALLBACK_IMG = `https://ghchart.rshah.org/${GITHUB_USER}`;
+
+  const ghCard = document.getElementById("github-card");
+  const ghSummaryTitle = document.getElementById("gh-summary-title");
+  const ghSrSummary = document.getElementById("gh-sr-summary");
+  const ghSkeleton = document.getElementById("gh-skeleton");
+  const ghScrollContainer = document.getElementById("gh-scroll-container");
+  const ghMonthsRow = document.getElementById("gh-months-row");
+  const ghGrid = document.getElementById("gh-grid");
+  const ghCardFooter = document.getElementById("gh-card-footer");
+  const ghFallbackContainer = document.getElementById("gh-fallback-container");
+  const ghTooltip = document.getElementById("gh-tooltip");
+
+  let ghAbortController = null;
+  let isGhRendered = false;
+
+  // Format date string "YYYY-MM-DD" to human readable "Mon, Mar 3, 2025" without timezone shifts
+  function formatGhDate(dateStr) {
+    if (!dateStr) return "";
+    const parts = dateStr.split("-").map(Number);
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    return d.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    });
+  }
+
+  // Parse total count safely from various API shapes
+  function extractTotalCount(data) {
+    if (!data) return 0;
+    if (typeof data.total === "number") return data.total;
+    if (data.total && typeof data.total.lastYear === "number") return data.total.lastYear;
+    if (Array.isArray(data.contributions)) {
+      return data.contributions.reduce((acc, cur) => acc + (cur.count || 0), 0);
+    }
+    return 0;
+  }
+
+  // If level is missing from any item, calculate levels 0-4 using quartiles
+  function ensureContributionLevels(contributions) {
+    if (!Array.isArray(contributions)) return [];
+    const hasMissingLevel = contributions.some((c) => typeof c.level !== "number");
+    if (!hasMissingLevel) return contributions;
+
+    let maxCount = 0;
+    contributions.forEach((c) => {
+      if (c.count > maxCount) maxCount = c.count;
+    });
+
+    return contributions.map((c) => {
+      const count = c.count || 0;
+      let level = 0;
+      if (count > 0) {
+        if (maxCount <= 4) {
+          level = count;
+        } else {
+          const q1 = maxCount * 0.25;
+          const q2 = maxCount * 0.5;
+          const q3 = maxCount * 0.75;
+          if (count <= q1) level = 1;
+          else if (count <= q2) level = 2;
+          else if (count <= q3) level = 3;
+          else level = 4;
+        }
+      }
+      return { ...c, level };
+    });
+  }
+
+  // Render the native CSS Grid contribution graph
+  function renderGitHubGraph(apiData) {
+    if (!ghCard || !ghGrid || !ghMonthsRow) return;
+
+    const rawContributions = apiData?.contributions || [];
+    if (!rawContributions.length) {
+      renderGitHubFallback();
+      return;
+    }
+
+    const contributions = ensureContributionLevels(rawContributions);
+    const totalCount = extractTotalCount(apiData);
+
+    // Find busiest day
+    let busiest = contributions[0];
+    contributions.forEach((c) => {
+      if ((c.count || 0) > (busiest.count || 0)) {
+        busiest = c;
+      }
+    });
+
+    // 1. Update summary title & screen reader summary
+    if (ghSummaryTitle) {
+      ghSummaryTitle.textContent = `${totalCount.toLocaleString()} contributions in the last year`;
+    }
+    if (ghSrSummary) {
+      const busiestText =
+        busiest && busiest.count > 0
+          ? ` Busiest day was ${formatGhDate(busiest.date)} with ${busiest.count} contributions.`
+          : "";
+      ghSrSummary.textContent = `${totalCount.toLocaleString()} contributions in the last year.${busiestText}`;
+    }
+
+    // 2. Compute first day weekday padding (0 = Sun, 1 = Mon ... 6 = Sat)
+    const firstDateParts = contributions[0].date.split("-").map(Number);
+    const firstDateObj = new Date(firstDateParts[0], firstDateParts[1] - 1, firstDateParts[2]);
+    const firstDayOfWeek = firstDateObj.getDay();
+
+    // 3. Build Grid via DocumentFragment
+    const gridFragment = document.createDocumentFragment();
+
+    // Insert spacer cells for weekday padding if first day is not Sunday
+    for (let s = 0; s < firstDayOfWeek; s++) {
+      const spacer = document.createElement("span");
+      spacer.className = "gh-cell gh-spacer";
+      spacer.setAttribute("aria-hidden", "true");
+      gridFragment.appendChild(spacer);
+    }
+
+    // Month label tracking
+    const monthColumns = [];
+    let lastRecordedMonth = -1;
+    let currentCellIndex = firstDayOfWeek;
+
+    // Insert contribution cells
+    contributions.forEach((c) => {
+      const cell = document.createElement("span");
+      cell.className = `gh-cell level-${c.level}`;
+      cell.setAttribute("data-date", c.date);
+      cell.setAttribute("data-count", String(c.count || 0));
+      cell.setAttribute("role", "gridcell");
+
+      const colIdx = Math.floor(currentCellIndex / 7);
+      cell.style.setProperty("--col-idx", colIdx);
+
+      // Check if this date starts a month
+      const parts = c.date.split("-").map(Number);
+      const day = parts[2];
+      const month = parts[1];
+      if (day === 1 || (colIdx === 0 && lastRecordedMonth === -1)) {
+        if (month !== lastRecordedMonth) {
+          monthColumns.push({ colIdx, month });
+          lastRecordedMonth = month;
+        }
+      }
+
+      gridFragment.appendChild(cell);
+      currentCellIndex++;
+    });
+
+    // Clear and append grid cells in one operation
+    ghGrid.innerHTML = "";
+    ghGrid.appendChild(gridFragment);
+
+    // 4. Build Month Labels Row
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthsFragment = document.createDocumentFragment();
+
+    let prevCol = -3;
+    monthColumns.forEach(({ colIdx, month }) => {
+      if (colIdx - prevCol >= 2) {
+        const span = document.createElement("span");
+        span.className = "gh-month-label";
+        span.textContent = monthNames[month - 1];
+        span.style.gridColumn = String(colIdx + 1);
+        monthsFragment.appendChild(span);
+        prevCol = colIdx;
+      }
+    });
+
+    ghMonthsRow.innerHTML = "";
+    ghMonthsRow.appendChild(monthsFragment);
+
+    // 5. Reveal UI and hide skeleton
+    if (ghSkeleton) ghSkeleton.style.display = "none";
+    if (ghFallbackContainer) ghFallbackContainer.style.display = "none";
+    if (ghScrollContainer) ghScrollContainer.style.display = "block";
+    if (ghCardFooter) ghCardFooter.style.display = "flex";
+
+    // 6. Auto-scroll container to the latest week on mobile
+    requestAnimationFrame(() => {
+      if (ghScrollContainer) {
+        ghScrollContainer.scrollLeft = ghScrollContainer.scrollWidth;
+      }
+    });
+
+    // 7. Observe for section reveal stagger animation
+    setupGraphRevealObserver();
+
+    isGhRendered = true;
+  }
+
+  // Fallback renderer when API fails and no cache exists
+  function renderGitHubFallback() {
+    if (!ghCard) return;
+    if (ghSkeleton) ghSkeleton.style.display = "none";
+    if (ghScrollContainer) ghScrollContainer.style.display = "none";
+    if (ghCardFooter) ghCardFooter.style.display = "none";
+
+    if (ghSummaryTitle) {
+      ghSummaryTitle.textContent = "GitHub Contributions";
+    }
+
+    if (!ghFallbackContainer) return;
+    ghFallbackContainer.innerHTML = "";
+    ghFallbackContainer.style.display = "block";
+
+    const img = document.createElement("img");
+    img.src = GITHUB_FALLBACK_IMG;
+    img.alt = `GitHub contributions chart for ${GITHUB_USER}`;
+    img.width = 670;
+    img.height = 110;
+    img.loading = "lazy";
+    img.className = "gh-fallback-img";
+
+    const note = document.createElement("p");
+    note.className = "gh-fallback-note";
+    note.textContent = "Showing activity chart overview. ";
+
+    const profileLink = document.createElement("a");
+    profileLink.href = `https://github.com/${GITHUB_USER}`;
+    profileLink.target = "_blank";
+    profileLink.rel = "noopener noreferrer";
+    profileLink.textContent = "View full profile on GitHub →";
+    note.appendChild(profileLink);
+
+    img.onerror = () => {
+      ghFallbackContainer.innerHTML = "";
+      const msg = document.createElement("p");
+      msg.className = "gh-fallback-msg";
+      msg.textContent = "GitHub activity is unavailable right now. ";
+      const link = document.createElement("a");
+      link.href = `https://github.com/${GITHUB_USER}`;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "View profile on GitHub →";
+      msg.appendChild(link);
+      ghFallbackContainer.appendChild(msg);
+    };
+
+    ghFallbackContainer.appendChild(img);
+    ghFallbackContainer.appendChild(note);
+  }
+
+  // Staggered reveal on scroll into view
+  function setupGraphRevealObserver() {
+    if (!ghCard) return;
+    if (prefersReducedMotion) {
+      ghCard.classList.add("revealed");
+      return;
+    }
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ghCard.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    revealObserver.observe(ghCard);
+  }
+
+  // Delegated Tooltip Listener on the grid
+  function setupGraphTooltip() {
+    if (!ghGrid || !ghTooltip) return;
+
+    function showTooltip(cell) {
+      if (!cell || cell.classList.contains("gh-spacer")) {
+        hideTooltip();
+        return;
+      }
+      const dateStr = cell.getAttribute("data-date");
+      const count = parseInt(cell.getAttribute("data-count") || "0", 10);
+      const formattedDate = formatGhDate(dateStr);
+
+      const countText =
+        count === 0
+          ? `No contributions on ${formattedDate}`
+          : count === 1
+          ? `1 contribution on ${formattedDate}`
+          : `${count} contributions on ${formattedDate}`;
+
+      ghTooltip.textContent = countText;
+      ghTooltip.classList.add("visible");
+      ghTooltip.setAttribute("aria-hidden", "false");
+
+      // Position tooltip relative to viewport
+      const cellRect = cell.getBoundingClientRect();
+      const tipRect = ghTooltip.getBoundingClientRect();
+
+      let left = cellRect.left + cellRect.width / 2 - tipRect.width / 2;
+      let top = cellRect.top - tipRect.height - 8;
+
+      // Viewport edge clamping
+      left = Math.max(12, Math.min(left, window.innerWidth - tipRect.width - 12));
+      if (top < 12) {
+        top = cellRect.bottom + 8;
+      }
+
+      ghTooltip.style.left = `${Math.round(left)}px`;
+      ghTooltip.style.top = `${Math.round(top)}px`;
+    }
+
+    function hideTooltip() {
+      if (ghTooltip) {
+        ghTooltip.classList.remove("visible");
+        ghTooltip.setAttribute("aria-hidden", "true");
+      }
+    }
+
+    // Hover (fine pointer) & Tap (touch) via single delegated listener
+    ghGrid.addEventListener("pointerover", (e) => {
+      const cell = e.target.closest(".gh-cell");
+      if (cell) showTooltip(cell);
+    });
+
+    ghGrid.addEventListener("pointerout", (e) => {
+      const cell = e.target.closest(".gh-cell");
+      if (cell) hideTooltip();
+    });
+
+    ghGrid.addEventListener("pointerdown", (e) => {
+      const cell = e.target.closest(".gh-cell");
+      if (cell) showTooltip(cell);
+    });
+
+    // Dismiss tooltip on scroll or outside tap
+    window.addEventListener("scroll", hideTooltip, { passive: true });
+    if (ghScrollContainer) {
+      ghScrollContainer.addEventListener("scroll", hideTooltip, { passive: true });
+    }
+    document.addEventListener("pointerdown", (e) => {
+      if (!e.target.closest("#gh-grid")) {
+        hideTooltip();
+      }
+    }, { passive: true });
+  }
+
+  // Fetch API with AbortController and cache
+  async function loadGitHubActivity() {
+    let hasValidCache = false;
+
+    // 1. Check localStorage Cache
+    try {
+      const rawCache = localStorage.getItem(GITHUB_CACHE_KEY);
+      if (rawCache) {
+        const cached = JSON.parse(rawCache);
+        if (cached && cached.data && Array.isArray(cached.data.contributions)) {
+          renderGitHubGraph(cached.data);
+          hasValidCache = true;
+          const age = Date.now() - (cached.timestamp || 0);
+          if (age < GITHUB_CACHE_TTL_MS) {
+            return;
+          }
+        }
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+
+    // 2. Fetch from API with 8s timeout
+    if (ghAbortController) {
+      ghAbortController.abort();
+    }
+    ghAbortController = new AbortController();
+    const timeoutId = setTimeout(() => ghAbortController.abort(), 8000);
+
+    try {
+      const res = await fetch(GITHUB_API_URL, {
+        signal: ghAbortController.signal,
+        headers: { Accept: "application/json" }
+      });
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      const json = await res.json();
+      if (!json || !Array.isArray(json.contributions)) {
+        throw new Error("Invalid API payload");
+      }
+
+      // Cache fresh data
+      try {
+        localStorage.setItem(
+          GITHUB_CACHE_KEY,
+          JSON.stringify({ data: json, timestamp: Date.now() })
+        );
+      } catch {
+        // Safe quota catch
+      }
+
+      renderGitHubGraph(json);
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (!hasValidCache && !isGhRendered) {
+        renderGitHubFallback();
+      }
+    }
+  }
+
+  // Initialize GitHub Activity
+  setupGraphTooltip();
+
+  // Lazy trigger fetch when section is near viewport or shortly after load
+  if ("IntersectionObserver" in window && ghCard) {
+    const fetchObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadGitHubActivity();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "250px 0px" }
+    );
+    fetchObserver.observe(ghCard);
+  } else {
+    setTimeout(loadGitHubActivity, 200);
   }
 });

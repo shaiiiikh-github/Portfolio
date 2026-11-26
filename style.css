@@ -81,6 +81,17 @@
   /* Desktop Nav Indicator */
   --nav-indicator-bg: rgba(255, 255, 255, 0.16);
   --nav-indicator-border: rgba(255, 255, 255, 0.22);
+
+  /* GitHub Contribution Graph Tokens (Dark Theme Default) */
+  --gh-cell-size: 11px;
+  --gh-cell-gap: 3px;
+  --gh-cell-radius: 3px;
+  --gh-level-0: rgba(255, 255, 255, 0.08); /* subtle glass tint visible on black */
+  --gh-level-1: #0e4429;
+  --gh-level-2: #006d32;
+  --gh-level-3: #26a641;
+  --gh-level-4: #39d353;
+  --gh-cell-border: rgba(255, 255, 255, 0.06);
 }
 
 /* Light Theme Variables */
@@ -124,6 +135,14 @@ body.light-mode {
   /* Desktop Nav Indicator (Light Mode) */
   --nav-indicator-bg: #FFFFFF;
   --nav-indicator-border: rgba(0, 0, 0, 0.08);
+
+  /* GitHub Contribution Graph Tokens (Light Theme) */
+  --gh-level-0: #ebedf0;
+  --gh-level-1: #9be9a8;
+  --gh-level-2: #40c463;
+  --gh-level-3: #30a14e;
+  --gh-level-4: #216e39;
+  --gh-cell-border: rgba(0, 0, 0, 0.06);
 }
 
 /* --------------------------------------------------------------------------
@@ -1117,6 +1136,305 @@ body.light-mode .spotify-widget {
 }
 
 /* --------------------------------------------------------------------------
+   7.5 GITHUB ACTIVITY (CONTRIBUTION GRAPH)
+   -------------------------------------------------------------------------- */
+.github-section {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+.github-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  border: 1px solid var(--border-glass);
+}
+
+.github-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+.github-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.github-icon {
+  color: var(--label-primary);
+  flex-shrink: 0;
+}
+
+.gh-summary-title {
+  font-size: clamp(14px, 2.8vw, 16px);
+  font-weight: 600;
+  color: var(--label-primary);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.gh-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--badge-blue);
+  transition: background-color var(--spring-duration-fast) var(--spring-easing),
+              color var(--spring-duration-fast) var(--spring-easing),
+              transform var(--spring-duration-fast) var(--spring-easing);
+  box-sizing: border-box;
+}
+
+.gh-profile-btn:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+}
+
+.gh-profile-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.gh-skeleton {
+  width: 100%;
+  height: 145px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+  background-size: 200% 100%;
+  animation: ghSkeletonShimmer 2s infinite linear;
+}
+
+@keyframes ghSkeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+body.light-mode .gh-skeleton {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.04) 75%);
+  background-size: 200% 100%;
+}
+
+.gh-scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 4px 2px;
+  mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+}
+
+.gh-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.gh-graph-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: max-content;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.gh-weekdays-col {
+  display: grid;
+  grid-template-rows: repeat(7, var(--gh-cell-size));
+  gap: var(--gh-cell-gap);
+  margin-top: 20px;
+  font-size: 9.5px;
+  font-weight: 500;
+  color: var(--label-tertiary);
+  line-height: var(--gh-cell-size);
+  text-align: right;
+  padding-right: 2px;
+}
+
+.gh-main-area {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gh-months-row {
+  display: grid;
+  grid-template-columns: repeat(53, var(--gh-cell-size));
+  gap: var(--gh-cell-gap);
+  height: 14px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--label-tertiary);
+  line-height: 14px;
+  text-align: left;
+}
+
+.gh-month-label {
+  white-space: nowrap;
+}
+
+.gh-grid {
+  display: grid;
+  grid-template-rows: repeat(7, var(--gh-cell-size));
+  grid-auto-flow: column;
+  grid-auto-columns: var(--gh-cell-size);
+  gap: var(--gh-cell-gap);
+}
+
+.gh-cell {
+  width: var(--gh-cell-size);
+  height: var(--gh-cell-size);
+  border-radius: var(--gh-cell-radius);
+  border: 1px solid var(--gh-cell-border);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform var(--spring-duration-fast) var(--spring-easing),
+              outline var(--spring-duration-fast) var(--spring-easing);
+}
+
+.gh-cell:hover {
+  transform: scale(1.35);
+  z-index: 2;
+  outline: 1.5px solid var(--label-primary);
+}
+
+.gh-cell.gh-spacer {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  border: none !important;
+}
+
+/* Contribution Levels */
+.gh-cell.level-0 { background: var(--gh-level-0); }
+.gh-cell.level-1 { background: var(--gh-level-1); }
+.gh-cell.level-2 { background: var(--gh-level-2); }
+.gh-cell.level-3 { background: var(--gh-level-3); }
+.gh-cell.level-4 { background: var(--gh-level-4); }
+
+/* Animation Stagger */
+.github-card:not(.revealed) .gh-cell:not(.gh-spacer) {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.github-card.revealed .gh-cell:not(.gh-spacer) {
+  animation: ghCellFadeIn 0.3s var(--spring-easing) forwards;
+  animation-delay: calc(var(--col-idx, 0) * 12ms);
+}
+
+@keyframes ghCellFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.gh-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: var(--space-md);
+}
+
+.gh-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--label-tertiary);
+}
+
+.gh-legend-label {
+  margin: 0 4px;
+}
+
+.gh-legend .gh-cell {
+  cursor: default;
+}
+
+.gh-legend .gh-cell:hover {
+  transform: none;
+  outline: none;
+}
+
+/* Fallback Container */
+.gh-fallback-container {
+  text-align: center;
+  padding: var(--space-md) 0;
+}
+
+.gh-fallback-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.gh-fallback-note,
+.gh-fallback-msg {
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+.gh-fallback-note a,
+.gh-fallback-msg a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.gh-fallback-note a:hover,
+.gh-fallback-msg a:hover {
+  text-decoration: underline;
+}
+
+/* Floating Tooltip */
+.gh-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  border-radius: var(--radius-xs);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  color: var(--label-primary);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-elevated);
+  white-space: nowrap;
+}
+
+.gh-tooltip.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
    8. TIMELINE SECTION
    -------------------------------------------------------------------------- */
 .timeline-container {
@@ -1539,10 +1857,15 @@ body.light-mode .spotify-widget {
 
 .sheet-actions {
   margin-top: var(--space-sm);
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
 }
 
 .sheet-btn {
-  width: 100%;
+  flex: 1 1 140px;
+  text-align: center;
+  justify-content: center;
 }
 
 /* iOS Toast Notification */
@@ -1759,6 +2082,13 @@ body.light-mode .spotify-widget {
     .site-header {
     padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
   }
+
+  .github-card {
+    padding: var(--space-xl);
+  }
+  .gh-skeleton {
+    height: 165px;
+  }
 }
 
 /* Desktop & Up (>= 1024px) */
@@ -1780,6 +2110,21 @@ body.light-mode .spotify-widget {
   /* Project Grid: 3 Columns */
   .project-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* GitHub Contribution Graph Desktop Sizing */
+  :root {
+    --gh-cell-size: 13px;
+    --gh-cell-gap: 4px;
+  }
+  .gh-weekdays-col {
+    margin-top: 24px;
+    font-size: 10px;
+  }
+  .gh-months-row {
+    font-size: 11px;
+    height: 16px;
+    line-height: 16px;
   }
 }
 
@@ -1822,5 +2167,35 @@ body.light-mode .spotify-widget {
   }
   .nav-indicator {
     transition: none !important;
+  }
+  .github-card:not(.revealed) .gh-cell:not(.gh-spacer),
+  .github-card.revealed .gh-cell:not(.gh-spacer) {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .gh-skeleton {
+    animation: none !important;
+  }
+  .gh-tooltip {
+    transition: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. PREFERS-CONTRAST (HIGH CONTRAST ENHANCEMENTS)
+   -------------------------------------------------------------------------- */
+@media (prefers-contrast: more) {
+  :root {
+    --gh-cell-border: rgba(255, 255, 255, 0.3);
+    --gh-level-0: rgba(255, 255, 255, 0.16);
+  }
+  body.light-mode {
+    --gh-cell-border: rgba(0, 0, 0, 0.4);
+    --gh-level-0: #d0d7de;
+  }
+  .gh-cell:hover {
+    outline: 2px solid var(--label-primary);
   }
 }

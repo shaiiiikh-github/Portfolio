@@ -1599,55 +1599,129 @@ body.light-mode .gh-skeleton {
 }
 
 /* --------------------------------------------------------------------------
-   10. SITE FOOTER
+   10. SITE FOOTER (Ultra-Thin Liquid Glass Horizon)
    -------------------------------------------------------------------------- */
 .site-footer {
-  border-top: 0.5px solid var(--hairline);
-  padding: var(--space-2xl) var(--space-md) calc(var(--tab-bar-height) + var(--space-2xl));
-  text-align: center;
   position: relative;
   z-index: 10;
+  width: 100%;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 18, 20, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
+  padding: 8px var(--space-md) calc(var(--tab-bar-height) + 8px);
+  transition: background var(--spring-duration) var(--spring-easing),
+              border-color var(--spring-duration) var(--spring-easing);
+}
+
+body.light-mode .site-footer {
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.03);
 }
 
 .footer-container {
-  max-width: 600px;
+  max-width: 1120px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-md);
+  gap: 6px;
+  text-align: center;
 }
 
-.footer-message {
-  font-size: 15px;
-  color: var(--label-secondary);
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  color: var(--label-primary);
+  line-height: 1.2;
+}
+body.light-mode .footer-logo {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--label-tertiary);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1;
 }
 
 .visitor-counter-pill {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
-  padding: 8px 18px;
+  gap: 5px;
+  padding: 3px 10px;
   border-radius: var(--radius-pill);
-  font-size: 14px;
-  color: var(--label-primary);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--label-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  line-height: 1.2;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.visitor-counter-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+body.light-mode .visitor-counter-pill {
+  background: rgba(0, 0, 0, 0.03);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+body.light-mode .visitor-counter-pill:hover {
+  border-color: rgba(0, 0, 0, 0.16);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.visitor-counter-pill .pulse-dot {
+  width: 5px;
+  height: 5px;
 }
 
 .footer-socials {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  font-size: 14px;
+  gap: 2px;
+  font-size: 12px;
 }
 .footer-socials a {
-  color: var(--accent);
+  color: var(--label-secondary);
   text-decoration: none;
   font-weight: 500;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  transition: color 0.15s ease, background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+.footer-socials a:hover {
+  color: var(--label-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+body.light-mode .footer-socials a:hover {
+  background: rgba(0, 0, 0, 0.04);
 }
 .footer-dot {
   color: var(--label-tertiary);
+  font-size: 9px;
 }
 
 /* --------------------------------------------------------------------------
@@ -2007,7 +2081,14 @@ body.light-mode .gh-skeleton {
     padding-bottom: var(--space-2xl);
   }
   .site-footer {
-    padding-bottom: var(--space-2xl);
+    padding: 10px var(--space-xl);
+  }
+  .footer-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    gap: var(--space-md);
   }
 
   /* Hero Layout */

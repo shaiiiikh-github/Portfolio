@@ -122,3 +122,16 @@ All original images were preserved in `/assets/original/`. Images were cropped, 
 - Implemented single delegated tooltip on the grid with boundary clamping, weekday padding, month labels, and screen reader announcements.
 - Updated scroll-spy to map `#github-activity` to `projects` without adding extra navigation items.
 - Styled in Liquid Glass design system with dark and light themes, reduced motion and high contrast support.
+
+---
+
+## 5. Minimal Liquid Glass Horizon Footer Redesign
+- Streamlined bulky, oversized footer into an ultra-thin, modern Liquid Glass horizon baseboard.
+- Replaced 600px vertical block stacking with an edge-to-edge 3-part micro-bar:
+  - Left: Micro monospaced branding tag (`SA`) and crisp copyright label (`© 2026 Shabbir • Crafted with precision`).
+  - Center: Slim liquid glass visitor counter badge with live pulsating status indicator.
+  - Right: Minimalist, accessible touch targets ($\ge 44\text{px}$) for GitHub and LinkedIn.
+- Reduced vertical bloat:
+  - Desktop height slimmed to ~42px with 10px vertical padding.
+  - Mobile padding tightened to 8px top with dedicated clearance for the floating mobile tab bar.
+- Implemented specular 0.5px hairline reflection, upward gradient glow, and 24px backdrop blur across dark and light themes.
